@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/d366ec8021.js" crossorigin="anonymous"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <title>Register Form</title>
+
+</head>
+<style>
+</style>
+
+<body>
+
+
+    <section class="vh-100" style="background-color: #eee;">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-lg-7 col-xl-6">
+                    <div class="card text-black" style="border-radius: 25px;">
+                        <div class="card-body p-md-6">
+                            <div class="row justify-content-center">
+                                <div class="col-md-12 col-lg-8 col-xl-7 order-2 order-lg-1">
+
+                                    <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+
+                                    <form class="mx-1 mx-md-6" x-data="form()" @submit.prevent="submit" method="POST"
+                                        x-init="
+                                    $watch('name', value => { validate('name') })
+                                    $watch('email', value => { validate('email') })
+                                    $watch('password', value => { validate('password') })
+                                    $watch('repeatPassword', value => { validate('repeatPassword') })
+                                  ">
+
+                                        <div class="d-flex flex-row align-items-center mb-4">
+                                            <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                                            <div class="form-floating flex-fill mb-0">
+                                                <input type="text" id="name" class="form-control"
+                                                    placeholder="Enter name" x-model="name" />
+                                                <label class="form-label">Your Name</label>
+                                                <!-- For Error Handleing -->
+                                                <div class="invalid-feedback col-md-12 d-flex align-items-center"
+                                                    x-text="validation.name.message">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex flex-row align-items-center mb-4">
+                                            <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                            <div class="form-floating flex-fill mb-0">
+                                                <input type="email" id="Email" class="form-control"
+                                                    placeholder="Enter email" x-model="email" />
+                                                <label class="form-label">Your Email</label>
+                                                <!-- For Error Handleing -->
+                                                <div class="invalid-feedback col-md-12 d-flex align-items-center"
+                                                    x-text="validation.email.message">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex flex-row align-items-center mb-4">
+                                            <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                                            <div class="form-floating flex-fill mb-0" x-data="{showPassword:false}">
+                                                <input x-bind:type="showPassword ? 'text' :'password'" id="Password"
+                                                    style="position:relative" class="form-control"
+                                                    placeholder="Enter password" x-model="password" />
+                                                <i class="fa" x-bind:class="showPassword ? 'fa-eye' : 'fa-eye-slash'"
+                                                    style="position: absolute;
+                                                    right: 1.1rem;
+                                                    top: 1.3rem;
+                                                    cursor: pointer;" x-on:click="showPassword =! showPassword"></i>
+                                                <label class="form-label">Password</label>
+                                                <!-- For Error Handleing -->
+                                                <div class="invalid-feedback col-md-12 d-flex align-items-center"
+                                                    x-text="validation.password.message">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex flex-row align-items-center mb-4">
+                                            <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                                            <div class="form-floating flex-fill mb-0">
+                                                <input type="password" id="RepeatPassword" class="form-control"
+                                                    placeholder="Enter password" x-model="repeatPassword" />
+                                                <label class="form-label">Repeat your
+                                                    password</label>
+                                                <!-- For Error Handleing -->
+                                                <div class="invalid-feedback col-md-12 d-flex align-items-center"
+                                                    x-text="validation.repeatPassword.message">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                            <button type="submit" class="btn btn-primary btn-lg mt-3">Sign Up</button>
+                                        </div>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        function form() {
+            let checkPassword = ''
+            return {
+
+                name: '',
+                email: '',
+                password: '',
+                repeatPassword: '',
+
+                validation: {
+                    name: {
+                        rule: {
+                            required: function (field) {
+                                if (field) {
+                                    return { error: false, message: '' }
+                                } else {
+                                    return { error: true, message: 'This field is required.' }
+                                }
+                            },
+                            minLength: function (field, value = 2) {
+                                if (field && field.length >= value) {
+                                    return { error: false, message: '' }
+                                } else {
+                                    return { error: true, message: `This field must have minimum ${value} characters length.` }
+                                }
+                            }
+                        },
+                        error: true,
+                        message: ''
+                    },
+                    email: {
+                        rule: {
+                            required: function (field) {
+                                if (field) {
+                                    return { error: false, message: '' }
+                                } else {
+                                    return { error: true, message: 'This field is required.' }
+                                }
+                            },
+                            email: function (field) {
+                                const rgx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                                if (rgx.test(field)) {
+                                    return { error: false, message: '' }
+                                } else {
+                                    return { error: true, message: 'This field has wrong email address format.' }
+                                }
+                            }
+                        },
+                        error: true,
+                        message: ''
+                    },
+                    password: {
+                        rule: {
+                            required: function (field) {
+                                if (field) {
+                                    return { error: false, message: '' }
+                                } else {
+                                    return { error: true, message: 'This field is required.' }
+                                }
+                            },
+                            minLength: function (field, value = 8) {
+                                checkPassword = field
+                                if (field && field.length >= value) {
+                                    return { error: false, message: '' }
+                                } else {
+                                    return { error: true, message: `This field must have minimum ${value} characters length.` }
+                                }
+                            }
+                        },
+                        error: true,
+                        message: ''
+                    },
+                    repeatPassword: {
+                        rule: {
+                            required: function (field) {
+                                if (field) {
+                                    return { error: false, message: '' }
+                                } else {
+                                    return { error: true, message: 'This field is required.' }
+                                }
+                            },
+                            confirmPassword: function (field) {
+                                // console.log(this.password);
+                                if (field === checkPassword) {
+                                    return { error: false, message: '' }
+                                } else {
+                                    return { error: true, message: `This field must match with password.` }
+                                }
+                            }
+                        },
+                        error: true,
+                        message: ''
+                    }
+                },
+                validate(field) {
+                    for (const key in this.validation[field].rule) {
+                        const validationResult = this.validation[field].rule[key](this[field])
+                        if (validationResult.error) {
+                            this.validation[field].error = true
+                            this.validation[field].message = validationResult.message
+                            break
+                        }
+                        this.validation[field].error = false
+                        this.validation[field].message = ''
+                        continue
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
