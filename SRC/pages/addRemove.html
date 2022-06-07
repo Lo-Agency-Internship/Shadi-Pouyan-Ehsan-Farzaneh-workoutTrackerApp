@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShaPouFar GYM</title>
+    <!-- CSS Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- Alpine JS -->
+    <script src="https://unpkg.com/alpinejs" defer></script>
+    <link rel="icon" href="/SRC/assets/images/logo.jpg">
+</head>
+
+<body class="overflow-scroll">
+    <!-- navbar -->
+    <!-- ====== -->
+    <nav class="navbar navbar-expand-md navbar-light pt-4 pb-4 bg-dark">
+        <div class="container-xxl">
+            <!-- navbar brand / title -->
+            <a class="navbar-brand" href="#home">
+                <img src="img/icon.png" alt="logo of gym" class="rounded mx-auto img-thumbnail" style="width: 50px;">
+                <span class="text-secondary fw-bold">
+                    ShaPouFar - your GYM
+                </span>
+            </a>
+            <!-- toggle button for mobile nav -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"
+                aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- navbar links -->
+            <div class="collapse navbar-collapse justify-content-end align-center " id="main-nav">
+                <ul class="navbar-nav ">
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="#about">About US</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="#otherGyms">OTHER GYMS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="#home">HOME</a>
+                    </li>
+                    <li class="nav-item d-md-none">
+                        <a class="nav-link text-light" href="#logOut">LOG OUT</a>
+                    </li>
+                    <li class="nav-item ms-2 d-none d-md-inline">
+                        <a value="" @click="toggleShowAndSaveExercise($event)" class="btn btn-secondary mb-1"
+                            href="#logOut">LOG OUT</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- ============================================================================= -->
+    <!-- add/edit  -->
+    <!-- ============================================================================= -->
+    <section id="add/edit" x-data="{
+                excerciseName:'',
+                show:false,
+                roundRange:'',
+                timeRange:'',
+                description:'',
+                toggleShowAndSaveExercise(event) {
+                    this.show = ! this.show;
+                    if(this.excerciseName===''){
+                        this.excerciseName = event.target.getAttribute('value')
+                    }
+                    else{
+                        this.excerciseName=''
+                    };
+                
+                    console.log(this.excerciseName);
+                    console.log(this.show) },
+                finalSave(event) {
+                    event.preventDefault;
+                    console.log(this.excerciseName)
+                    console.log(this.roundRange)
+                    console.log(this.timeRange)
+                    console.log(this.description)
+                }
+            
+                }">
+
+        <div class="container-md row">
+            <!-- =======================CATEGORIES========================================== -->
+            <!-- ============================================================================= -->
+            <div class="col-lg-6">
+                <p class=" text-center m-2 text-bolder bg-secondary m-1 p-1 rounded">Choose One Category</p>
+                <!-- accordions starts here-->
+                <!-- ============================================================================= -->
+                <div class="accordion" id="chapters">
+                    <!--ABS accordion-->
+                    <!-- ======================================================================= -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading-1">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#abs" aria-expanded="true" aria-controls="abs">
+                                ABS
+                            </button>
+                        </h2>
+                        <div id="abs" class="accordion-collapse collapse show" aria-labelledby="heading-1"
+                            data-bs-parent="#chapters">
+                            <div class="accordion-body pt-0 mt-0">
+                                <br><button value="ABS,Flat bench leg raise" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">Flat bench leg raise</button>
+                                <br><button value="ABS,Flutter kicks" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">Flutter kicks</button>
+                                <br><button value="ABS,Toe reach" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">Toe reach</button>
+                                <br><button value="ABS,Reverse crunch" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">Reverse crunch</button>
+                                <br><button value="ABS,Bicycle crunch" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">Bicycle crunch</button>
+                                <br><button value="ABS,Russian twist" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">Russian twist</button>
+                                <br>
+                                <form>
+                                    <input value="" @click="SaveNewSubExercise($event)"></input>
+                                    <button class="btn btn-secondary mb-1">add to sub Exercise</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--BACK accordion-->
+                    <!-- ======================================================================= -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading-2">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#back" aria-expanded="false" aria-controls="back">
+                                BACK
+                            </button>
+                        </h2>
+                        <div id="back" class="accordion-collapse collapse" aria-labelledby="heading-2"
+                            data-bs-parent="#chapters">
+                            <div class="accordion-body pt-0 mt-0">
+                                <br><button value="BACK,back1" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">back1</button>
+                                <br><button value="BACK,back2" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">back2</button>
+                                <br><button value="BACK,back3" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">back3</button>
+                                <br><button value="BACK,back4" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">back4</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--BICEP accordion-->
+                    <!-- ======================================================================= -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading-3">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#bicep" aria-expanded="false" aria-controls="bicep">
+                                BICEP
+                            </button>
+                        </h2>
+                        <div id="bicep" class="accordion-collapse collapse" aria-labelledby="heading-3"
+                            data-bs-parent="#chapters">
+                            <div class="accordion-body pt-0 mt-0">
+                                <br><button value="BICEP,bicep1" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">bicep1</button>
+                                <br><button value="BICEP,bicep2" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">bicep2</button>
+                                <br><button value="BICEP,bicep3" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">bicep3</button>
+                                <br><button value="BICEP,bicep4" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">bicep4</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--LEGS accordion-->
+                    <!-- ======================================================================= -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading-4">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#legs" aria-expanded="false" aria-controls="legs">
+                                LEGS
+                            </button>
+                        </h2>
+                        <div id="legs" class="accordion-collapse collapse" aria-labelledby="heading-4"
+                            data-bs-parent="#chapters">
+                            <div class="accordion-body pt-0 mt-0">
+                                <br><button value="LEGS,legs1" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">legs1</button>
+                                <br><button value="LEGS,legs2" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">legs2</button>
+                                <br><button value="LEGS,legs3" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">legs3</button>
+                                <br><button value="LEGS,legs4" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">legs4</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--CHEST accordion-->
+                    <!-- ======================================================================= -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading-5">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#chest" aria-expanded="false" aria-controls="chest">
+                                CHEST
+                            </button>
+                        </h2>
+                        <div id="chest" class="accordion-collapse collapse" aria-labelledby="heading-5"
+                            data-bs-parent="#chapters">
+                            <div class="accordion-body pt-0 mt-0">
+                                <br><button value="CHEST,chest1" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">chest1</button>
+                                <br><button value="CHEST,chest2" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">chest2</button>
+                                <br><button value="CHEST,chest3" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">chest3</button>
+                                <br><button value="CHEST,chest4" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">chest4</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--SHOULDER accordion-->
+                    <!-- ======================================================================= -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading-5">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#shoulder" aria-expanded="false" aria-controls="shoulder">
+                                SHOULDER
+                            </button>
+                        </h2>
+                        <div id="shoulder" class="accordion-collapse collapse" aria-labelledby="heading-5"
+                            data-bs-parent="#chapters">
+                            <div class="accordion-body pt-0 mt-0">
+                                <br><button value="SHOULDER,shoulder1" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">shoulder1</button>
+                                <br><button value="SHOULDER,shoulder2" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">shoulder2</button>
+                                <br><button value="SHOULDER,shoulder3" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">shoulder3</button>
+                                <br><button value="SHOULDER,shoulder4" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">shoulder4</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--REST accordion-->
+                    <!-- ======================================================================= -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading-5">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#rest" aria-expanded="false" aria-controls="rest">
+                                REST
+                            </button>
+                        </h2>
+                        <div id="rest" class="accordion-collapse collapse" aria-labelledby="heading-5"
+                            data-bs-parent="#chapters">
+                            <div class="accordion-body pt-0 mt-0">
+                                <br><button value="REST,sleep" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">sleep</button>
+                                <br><button value="REST,meditate" @click="toggleShowAndSaveExercise($event)"
+                                    class="btn btn-secondary mb-1">meditate</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- =======================END OF CATEGORIES accordions ========================================== -->
+
+
+            <!-- =======================start of getting time and rounds========================================== -->
+            <div class="col-lg-6">
+                <div class="justify-content-center align-center m-2">
+                    <form x-show='show' class="bg-secondary m-2 p-5 rounded">
+                        <label for="roundRange" class="form-label fw-bold">Number Of rounds</label>
+                        <input type="range" class="form-range" id="roundRange" value="10" min="1" max="100"
+                            oninput="this.nextElementSibling.value = this.value" x-model="roundRange">
+                        <output>10</output>&nbsp round(s)
+                        <hr>
+                        <label for="timeRange" class="form-label fw-bold">Duration Of rounds</label>
+                        <input type="range" class="form-range" id="timeRange" value="5" min="1" max="60"
+                            oninput="this.nextElementSibling.value = this.value" x-model="timeRange">
+                        <output>5</output>&nbsp minutes(s)
+
+                        <div class="input-group w-100">
+                            <div class="form-group w-100">
+                                <hr>
+                                <label for="Description" class="fw-bold mb-2">Description</label>
+                                <textarea class="form-control w-100 mt-1" id="Description" rows="5"
+                                    x-model="description"></textarea>
+                            </div>
+                        </div>
+                        <br>
+                        <button class="btn btn-primary btn-lg" @click="finalSave($event)">save</button>
+                    </form>
+                </div>
+            </div>
+            <!-- =======================end of getting time and rounds========================================== -->
+
+        </div>
+    </section>
+    <!-- ============================================================================= -->
+
+    <!-- JavaScript Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
