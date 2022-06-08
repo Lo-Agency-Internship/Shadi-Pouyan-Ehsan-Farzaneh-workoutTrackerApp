@@ -16,6 +16,10 @@ app.get("/edit", (req, res) => {
   res.render("edit.twig")
 })
 
+app.get("/homepage", (req, res) => {
+  res.render("homepage.twig")
+})
+
 app.listen(port, () => {
   console.log(`The server is running succesfully on the http://localhost:${port}. `);
 });
