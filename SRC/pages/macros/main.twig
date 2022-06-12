@@ -12,9 +12,8 @@
 				{% endfor %}
 			</div>
 			<form>
-				<input value="" @click="{{cb}}"></input>
-				<button class="btn btn-secondary mb-1">add to sub Exercise</button>
+				<input value="" x-model="newSubTask"></input>
+				<button class="btn btn-secondary mb-1" @click="{{cb}}" x-bind:disabled="newSubTask===''">add to sub Exercise</button>
 			</form>
 		</div>
-	</div>
-	{% endmacro %}
+	</div>{% endmacro %}

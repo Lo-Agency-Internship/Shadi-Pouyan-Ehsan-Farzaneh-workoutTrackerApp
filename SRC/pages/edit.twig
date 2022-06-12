@@ -3,268 +3,288 @@
 {% import "./macros/main.twig" as main %}
 
 {% block scripts %}
-	<script></script>
-{% endblock %}
+    <script>
+        function excercise(){
+            return{
+                excerciseName:'',
+                show:false,
+                roundRange:'',
+                timeRange:'',
+                description:'',
+                newSubTask:'',
+                toggleShowAndSaveExercise(event) {
+                    event.preventDefault();
+                    this.show = ! this.show;
+                    if(this.excerciseName===''){
+                        this.excerciseName = event.target.getAttribute('value')
+                    }
+                    else{
+                        this.excerciseName=''
+                    }},
 
+                finalSave(event) {
+                    event.preventDefault();
+					let data = {excerciseName: this.excerciseName,
+								roundRange: this.roundRange,
+								timeRange: this.timeRange,
+								description: this.description,
+								};
+
+					fetch("/edit/api", {
+					method: "POST",
+					headers: {'Content-Type': 'application/json'}, 
+					body: JSON.stringify(data),
+					})
+					/*.then(res => {
+					console.log("2");
+					console.log("Request complete! response:", res);
+					});*/
+					
+                },
+                SaveNewSubExercise(event) {
+                    event.preventDefault();
+                    console.log(this.newSubTask)
+                }
+				
+            }
+        }
+    </script>
+{% endblock %}
+	
 {% block content %}
-	<section class="container" id="add/edit" x-data="{
-						                                        excerciseName:'',
-						                                        show:false,
-						                                        roundRange:'',
-						                                        timeRange:'',
-						                                        description:'',
-						                                        toggleShowAndSaveExercise(event) {
-						                                            event.preventDefault();
-						                                            this.show = ! this.show;
-						                                            if(this.excerciseName===''){
-						                                                this.excerciseName = event.target.getAttribute('value')
-						                                            }
-						                                            else{
-						                                                this.excerciseName=''
-						                                            };
-			
-						                                            console.log(this.excerciseName);
-						                                            console.log(this.show) },
-						                                        finalSave(event) {
-						                                            event.preventDefault();
-						                                            console.log(this.excerciseName)
-						                                            console.log(this.roundRange)
-						                                            console.log(this.timeRange)
-						                                            console.log(this.description)
-						                                        }
-			
-						                                        }">
-		<div class="row">
-			<!-- =======================CATEGORIES========================================== -->
-			<!-- ============================================================================= -->
-				<div class="col-lg-6 bg-secondary"> <p class=" text-center m-2 text-bolder bg-info m-1 p-1 rounded">Choose One Category</p>
 
-				<!-- accordions starts here-->
+		<section class="container" id="add/edit" x-data="excercise()">
+			<div class="row">
+				<!-- =======================CATEGORIES========================================== -->
 				<!-- ============================================================================= -->
-				<div class="accordion" id="chapters">
-
-					<!--ABS accordion-->
-					<!-- ======================================================================= -->
-					{{ main.accordionItem("ABS", [
-                    {
-                        value: "ABS,Flat bench leg raise",
-                        name: "Flat bench leg raise",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    },
-                    {
-                        value: "ABS,Flutter kicks",
-                        name: "Flutter kicks",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    },
-                    {
-                        value: "ABS,Toe reach",
-                        name: "Toe reach",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    },
-                    {
-                        value: "ABS,Reverse crunch",
-                        name: "Reverse crunch",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    },
-                    {
-                        value: "ABS,Bicycle crunch",
-                        name: "Bicycle crunch",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    },
-                    {
-                        value: "ABS,Russian twist",
-                        name: "Russian twist",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    }
-                    ],
-                    "SaveNewSubExercise($event)")
-                    }}
-
-					<!--BACK accordion-->
-					<!-- ======================================================================= -->
-					{{ main.accordionItem("BACK", [
-                    {
-                        value: "BACK,back1",
-                        name: "back1",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    },
-                    {
-                        value: "BACK,back2",
-                        name: "back2",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    },
-                    {
-                        value: "BACK,back3",
-                        name: "back3",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    },
-                    {
-                        value: "BACK,back4",
-                        name: "back4",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    }
-                    ],
-                    "SaveNewSubExercise($event)")
-                    }}
-
-					<!--BICEP accordion-->
-					<!-- ======================================================================= -->
-					{{ main.accordionItem("BICEP", [
-                    {
-                        value: "BICEP,bicep1",
-                        name: "bicep1",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    },
-                    {
-                        value: "BICEP,bicep2",
-                        name: "bicep2",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    },
-                    {
-                        value: "BICEP,bicep3",
-                        name: "bicep3",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    },
-                    {
-                        value: "BICEP,bicep4",
-                        name: "bicep4",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    }
-                    ],
-                    "SaveNewSubExercise($event)")
-                    }}
-
-					<!--LEGS accordion-->
-					<!-- ======================================================================= -->
-					{{ main.accordionItem("LEGS", [
-                    {
-                        value: "LEGS,legs1",
-                        name: "legs1",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    },
-                    {
-                        value: "LEGS,legs2",
-                        name: "legs2",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    },
-                    {
-                        value: "LEGS,legs3",
-                        name: "legs3",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    },
-                    {
-                        value: "LEGS,legs4",
-                        name: "legs4",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    }
-                    ],
-                    "SaveNewSubExercise($event)")
-                    }}
-
-					<!--CHEST accordion-->
-					<!-- ======================================================================= -->
-					{{ main.accordionItem("CHEST", [
-                    {
-                        value: "CHEST,chest1",
-                        name: "chest1",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    },
-                    {
-                        value: "CHEST,chest2",
-                        name: "chest2",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    },
-                    {
-                        value: "CHEST,chest3",
-                        name: "chest3",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    },
-                    {
-                        value: "CHEST,chest4",
-                        name: "chest4",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    }
-                    ],
-                    "SaveNewSubExercise($event)")
-                    }}
-
-
-					<!--SHOULDER accordion-->
-					<!-- ======================================================================= -->
-					{{ main.accordionItem("SHOULDER", [
-                    {
-                        value: "SHOULDER,shoulder1",
-                        name: "shoulder1",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    },
-                    {
-                        value: "SHOULDER,shoulder2",
-                        name: "shoulder2",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    },
-                    {
-                        value: "SHOULDER,shoulder3",
-                        name: "shoulder3",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    },
-                    {
-                        value: "SHOULDER,shoulder4",
-                        name: "shoulder4",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    }
-                    ],
-                    "SaveNewSubExercise($event)")
-                    }}
-
-					<!--REST accordion-->
-					<!-- ======================================================================= -->
-				{{ main.accordionItem("REST", [
-                    {
-                        value: "REST,sleep",
-                        name: "sleep",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    },
-                    {
-                        value: "REST,meditate",
-                        name: "meditate",
-                        onClick: "toggleShowAndSaveExercise($event)"
-                    }
-                    ],
-                    "SaveNewSubExercise($event)")
-                    }}
-			</div>
-				<!-- =======================END OF CATEGORIES accordions ========================================== -->
-			</div>
-			<div
-				class="col-lg-6 bg-secondary">
-				<!-- =======================start of getting time and rounds========================================== -->
-
-				<div class="justify-content-center align-center m-2">
-					<form x-show='show' class="bg-info m-2 p-5 rounded">
-						<label for="roundRange" class="form-label fw-bold">Number Of rounds</label>
-						<input type="range" class="form-range" id="roundRange" value="10" min="1" max="100" oninput="this.nextElementSibling.value = this.value" x-model="roundRange">
-						<output>10</output>&nbsp round(s)
-						<hr>
-						<label for="timeRange" class="form-label fw-bold">Duration Of rounds</label>
-						<input type="range" class="form-range" id="timeRange" value="5" min="1" max="60" oninput="this.nextElementSibling.value = this.value" x-model="timeRange">
-						<output>5</output>&nbsp minutes(s)
-
-						<div class="input-group w-100">
-							<div class="form-group w-100">
-								<hr>
-								<label for="Description" class="fw-bold mb-2">Description</label>
-								<textarea class="form-control w-100 mt-1" id="Description" rows="5" x-model="description"></textarea>
-							</div>
-						</div>
-						<br>
-						<button class="btn btn-info btn-lg" @click="finalSave($event)">save</button>
-					</form>
+					<div class="col-lg-6 bg-secondary"> <p class=" text-center m-2 text-bolder bg-info m-1 p-1 rounded">Choose One Category</p>
+	
+					<!-- accordions starts here-->
+					<!-- ============================================================================= -->
+					<div class="accordion" id="chapters">
+	
+						<!--ABS accordion-->
+						<!-- ======================================================================= -->
+						{{ main.accordionItem("ABS", [
+	                    {
+	                        value: "ABS,Flat bench leg raise",
+	                        name: "Flat bench leg raise",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    },
+	                    {
+	                        value: "ABS,Flutter kicks",
+	                        name: "Flutter kicks",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    },
+	                    {
+	                        value: "ABS,Toe reach",
+	                        name: "Toe reach",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    },
+	                    {
+	                        value: "ABS,Reverse crunch",
+	                        name: "Reverse crunch",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    },
+	                    {
+	                        value: "ABS,Bicycle crunch",
+	                        name: "Bicycle crunch",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    },
+	                    {
+	                        value: "ABS,Russian twist",
+	                        name: "Russian twist",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    }
+	                    ],
+	                    "SaveNewSubExercise($event)")
+	                    }}
+	
+						<!--BACK accordion-->
+						<!-- ======================================================================= -->
+						{{ main.accordionItem("BACK", [
+	                    {
+	                        value: "BACK,back1",
+	                        name: "back1",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    },
+	                    {
+	                        value: "BACK,back2",
+	                        name: "back2",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    },
+	                    {
+	                        value: "BACK,back3",
+	                        name: "back3",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    },
+	                    {
+	                        value: "BACK,back4",
+	                        name: "back4",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    }
+	                    ],
+	                    "SaveNewSubExercise($event)")
+	                    }}
+	
+						<!--BICEP accordion-->
+						<!-- ======================================================================= -->
+						{{ main.accordionItem("BICEP", [
+	                    {
+	                        value: "BICEP,bicep1",
+	                        name: "bicep1",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    },
+	                    {
+	                        value: "BICEP,bicep2",
+	                        name: "bicep2",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    },
+	                    {
+	                        value: "BICEP,bicep3",
+	                        name: "bicep3",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    },
+	                    {
+	                        value: "BICEP,bicep4",
+	                        name: "bicep4",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    }
+	                    ],
+	                    "SaveNewSubExercise($event)")
+	                    }}
+	
+						<!--LEGS accordion-->
+						<!-- ======================================================================= -->
+						{{ main.accordionItem("LEGS", [
+	                    {
+	                        value: "LEGS,legs1",
+	                        name: "legs1",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    },
+	                    {
+	                        value: "LEGS,legs2",
+	                        name: "legs2",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    },
+	                    {
+	                        value: "LEGS,legs3",
+	                        name: "legs3",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    },
+	                    {
+	                        value: "LEGS,legs4",
+	                        name: "legs4",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    }
+	                    ],
+	                    "SaveNewSubExercise($event)")
+	                    }}
+	
+						<!--CHEST accordion-->
+						<!-- ======================================================================= -->
+						{{ main.accordionItem("CHEST", [
+	                    {
+	                        value: "CHEST,chest1",
+	                        name: "chest1",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    },
+	                    {
+	                        value: "CHEST,chest2",
+	                        name: "chest2",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    },
+	                    {
+	                        value: "CHEST,chest3",
+	                        name: "chest3",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    },
+	                    {
+	                        value: "CHEST,chest4",
+	                        name: "chest4",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    }
+	                    ],
+	                    "SaveNewSubExercise($event)")
+	                    }}
+	
+	
+						<!--SHOULDER accordion-->
+						<!-- ======================================================================= -->
+						{{ main.accordionItem("SHOULDER", [
+	                    {
+	                        value: "SHOULDER,shoulder1",
+	                        name: "shoulder1",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    },
+	                    {
+	                        value: "SHOULDER,shoulder2",
+	                        name: "shoulder2",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    },
+	                    {
+	                        value: "SHOULDER,shoulder3",
+	                        name: "shoulder3",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    },
+	                    {
+	                        value: "SHOULDER,shoulder4",
+	                        name: "shoulder4",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    }
+	                    ],
+	                    "SaveNewSubExercise($event)")
+	                    }}
+	
+						<!--REST accordion-->
+						<!-- ======================================================================= -->
+					{{ main.accordionItem("REST", [
+	                    {
+	                        value: "REST,sleep",
+	                        name: "sleep",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    },
+	                    {
+	                        value: "REST,meditate",
+	                        name: "meditate",
+	                        onClick: "toggleShowAndSaveExercise($event)"
+	                    }
+	                    ],
+	                    "SaveNewSubExercise($event)")
+	                    }}
 				</div>
-
-				<!-- =======================end of getting time and rounds========================================== -->
+					<!-- =======================END OF CATEGORIES accordions ========================================== -->
+				</div>
+				<div
+					class="col-lg-6 bg-secondary">
+					<!-- =======================start of getting time and rounds========================================== -->
+	
+					<div class="justify-content-center align-center m-2">
+						<form x-show='show' class="bg-info m-2 p-5 rounded">
+							<label for="roundRange" class="form-label fw-bold">Number Of rounds</label>
+							<input type="range" class="form-range" id="roundRange" value="10" min="1" max="100" oninput="this.nextElementSibling.value = this.value" x-model="roundRange">
+							<output>10</output>&nbsp round(s)
+							<hr>
+							<label for="timeRange" class="form-label fw-bold">Duration Of rounds</label>
+							<input type="range" class="form-range" id="timeRange" value="5" min="1" max="60" oninput="this.nextElementSibling.value = this.value" x-model="timeRange">
+							<output>5</output>&nbsp minutes(s)
+	
+							<div class="input-group w-100">
+								<div class="form-group w-100">
+									<hr>
+									<label for="Description" class="fw-bold mb-2">Description</label>
+									<textarea class="form-control w-100 mt-1" id="Description" rows="5" x-model="description"></textarea>
+								</div>
+							</div>
+							<br>
+							<button class="btn btn-secondary btn-lg" @click="finalSave($event)" x-bind:disabled="description===''">save</button>
+						</form>
+					</div>
+	
+					<!-- =======================end of getting time and rounds========================================== -->
+				</div>
+	
+	
 			</div>
-
-
-		</div>
-	</section>
-{% endblock %}
+		</section>
+	{% endblock %}
