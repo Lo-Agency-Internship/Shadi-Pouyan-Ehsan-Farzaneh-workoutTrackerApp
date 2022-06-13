@@ -50,16 +50,12 @@ function insert(taskName, subTaskName, roundRange, timeRange, description) {
   const info = statement.run(taskName, subTaskName, roundRange, timeRange, description);
   console.log(info);
 }
+function loadDataBase() {
+  const statement = db.prepare(constants.LOAD_DATABASE);
+  const info = statement.all();
+  console.log(info);
 
-// function autoIncrement(id) {
-  
-// }
-// db.aggregate('addAll', {
-//   start: 0,
-//   step: (total, nextValue) => total + nextValue,
-// });
-
-// db.prepare('SELECT addAll(dollars) FROM expenses').pluck().get(); // => 92
+}
 
 
 // =================================================================
@@ -87,6 +83,8 @@ app.post("/add/api", (req, res) => {
 // =====================================
 
 app.get("/homepage", (req, res) => {
+  loadDataBase()
+  
   res.render("homepage.twig");
 });
 
