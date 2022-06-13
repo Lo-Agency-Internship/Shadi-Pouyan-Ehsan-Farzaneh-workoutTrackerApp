@@ -66,11 +66,11 @@ function insert(taskName, subTaskName, roundRange, timeRange, description) {
 // routes
 // =================================================================
 
-app.get("/edit", (req, res) => {
-  res.render("edit.twig");
+app.get("/add", (req, res) => {
+  res.render("add.twig");
 });
 
-app.post("/edit/api", (req, res) => {
+app.post("/add/api", (req, res) => {
   const excercise = req.body.excerciseName.split(",")[0];
   const subExcercise = req.body.excerciseName.split(",")[1];
   const roundRange = req.body.roundRange;

@@ -30,7 +30,7 @@
 								description: this.description,
 								};
 
-					fetch("/edit/api", {
+					fetch("/add/api", {
 					method: "POST",
 					headers: {'Content-Type': 'application/json'}, 
 					body: JSON.stringify(data),
@@ -57,7 +57,7 @@
 			<div class="row">
 				<!-- =======================CATEGORIES========================================== -->
 				<!-- ============================================================================= -->
-					<div class="col-lg-6 bg-secondary"> <p class=" text-center m-2 text-bolder bg-info m-1 p-1 rounded">Choose One Category</p>
+					<div class="col-lg-6"> <p class=" text-center m-2 text-bolder bg-info m-1 p-1 rounded">Choose One Category</p>
 	
 					<!-- accordions starts here-->
 					<!-- ============================================================================= -->
