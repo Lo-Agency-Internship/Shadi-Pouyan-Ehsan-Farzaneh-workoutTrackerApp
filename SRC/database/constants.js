@@ -16,4 +16,5 @@ module.exports = {
     description,
     date)
     VALUES(?,?,?,?,?,CURRENT_DATE)`,
+  LOAD_DATABASE: `SELECT * FROM excercises`
 };
