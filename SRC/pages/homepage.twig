@@ -1,6 +1,31 @@
 {% extends "./layouts/main.twig" %}
 {% import "./macros/card.twig" as card %}
-
+{% block scripts %}
+ <script>
+       /*
+	   function deleteRemove(id){
+			return{
+			delete(id){
+				alert("delete kar mikone")
+				fetch("/homepage/delete", {
+						method: "POST", 
+						body: JSON.stringify(id),
+						})
+				}
+			}
+		}
+		*/
+		/*
+		function delete(id){
+				alert("delete kar mikone");
+				fetch("/homepage/delete", {
+						method: "POST", 
+						body: JSON.stringify(id),
+						})
+		}
+		*/
+</script>
+{% endblock %}
 {% block content %}
 	<main
 		data-bs-spy="scroll" data-bs-target="#navbar-example">
@@ -22,5 +47,4 @@
 	</main>
 
 	{{card.cards(exercises)}}
-
 {% endblock %}

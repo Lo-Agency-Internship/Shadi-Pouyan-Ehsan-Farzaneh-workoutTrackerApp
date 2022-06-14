@@ -16,5 +16,6 @@ module.exports = {
     description,
     date)
     VALUES(?,?,?,?,?,CURRENT_DATE)`,
-  LOAD_DATABASE: `SELECT * FROM excercises`
+  LOAD_DATABASE: `SELECT * FROM excercises`,
+  DELETE_EXERCISE: `DELETE FROM excercises WHERE id=?`
 };

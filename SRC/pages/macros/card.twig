@@ -1,14 +1,20 @@
 {% macro cards(exercises) %}
 {% for exercise in exercises %}
-<div class="card mx-auto align-self-center" style=" background-color: #d8f0f5fa">
-	<div class="card-body">
-		<h5 class="card-title">Exercise Number:{{exercise.id}}</h5>
-		<h6 class="card-subtitle mb-2 text-muted">{{exercise.taskName}}</h6>
-		<h6 class="card-subtitle mb-2 text-muted">{{exercise.subTaskName}}</h6>
-		<h6 class="card-subtitle mb-2 text-muted">Number of rounds:{{exercise.roundRange}}</h6>
-		<h6 class="card-subtitle mb-2 text-muted">Time of each round:{{exercises.timeRange}}</h6>
-		<h6 class="card-subtitle mb-2 text-muted">Time of each round:{{exercises.description}}</h6>
+<form action="/homepage/delete" method="post">
+	<div class="card  align-self-center d-flex " style=" background-color: #d8f0f5fa">
+		<div class="card-body ">
+			<h5 class="card-title">Exercise Number:{{exercise.id}}</h5>
+			<h6 class="card-subtitle mb-2 text-muted"> <strong>Main Task:</strong>&nbsp{{exercise.taskName}}</h6>
+			<h6 class="card-subtitle mb-2 text-muted"><strong> SubTask:</strong>&nbsp{{exercise.subTaskName}}</h6>
+			<h6 class="card-subtitle mb-2 text-muted"><strong>Number of rounds:</strong>&nbsp{{exercise.roundRange}}</h6>
+			<h6 class="card-subtitle mb-2 text-muted"><strong>Time of each round:</strong>&nbsp{{exercise.timeRange}}</h6>
+			<h6 class="card-subtitle mb-2 text-muted"><strong>Description:</strong>&nbsp{{exercise.description}}</h6>
+            <h6 class="card-subtitle mb-2 text-muted"><strong>Date:</strong>&nbsp{{exercise.date}}</h6>
+
+			<input name="exerciseID" value="{{exercise.id}}" type="hidden"></input>
+			<button class="btn bg-danger" type="submit"> Delete </button>
+		</div>
 	</div>
-</div>
+</form>
 {% endfor %}
 {% endmacro %}

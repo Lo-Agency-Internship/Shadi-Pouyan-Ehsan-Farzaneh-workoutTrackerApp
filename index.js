@@ -68,6 +68,14 @@ function loadDataBase() {
   
   return info;
 }
+function deleteExercise(id) {
+  
+  const statement = db.prepare(constants.DELETE_EXERCISE);
+  
+  const info = statement.run(id);
+  
+  console.log(info);
+}
 
 // =================================================================
 // routes
@@ -102,9 +110,17 @@ app.get("/homepage", (req, res) => {
     })
     }
   } catch (err) {
-    console.error("please fill the DB first by adding an excercise");
+    res.render("information");
   }
   
+});
+
+// ===============================
+// ===============================
+app.post("/homepage/delete", (req, res) => {
+  const exercise= req.body;
+  deleteExercise(exercise.exerciseID);
+  res.redirect("/homepage")
 });
 
 // =====================================
