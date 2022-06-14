@@ -2,8 +2,10 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 const path = require("path");
-const constants = require("./src/database/constants")
+
+const constants = require("./src/database/constants");
 // app.use('/static', express.static(path.join(__dirname, 'public')))
 app.use(express.static(path.join(__dirname, "src", "public")));
 
@@ -18,13 +20,15 @@ const axios = require("axios").default;
 app.set("view engine", "twig");
 app.set("views", path.join(__dirname, "src", "pages"));
 
+const fs = require("fs");
+
 // =======================================================
 // Database
 // =======================================================
 
 const Database = require("better-sqlite3");
 const db = new Database(
-  "src/database/excercises.db",
+  "src/database/database.db",
   Database.OPEN_READWRITE,
   (err) => {
     if (err) {
@@ -47,16 +51,23 @@ function prepare() {
  */
 function insert(taskName, subTaskName, roundRange, timeRange, description) {
   const statement = db.prepare(constants.INSERT_NEW_SAMPLE);
-  const info = statement.run(taskName, subTaskName, roundRange, timeRange, description);
+  const info = statement.run(
+    taskName,
+    subTaskName,
+    roundRange,
+    timeRange,
+    description
+  );
   console.log(info);
 }
 function loadDataBase() {
+  
   const statement = db.prepare(constants.LOAD_DATABASE);
+  
   const info = statement.all();
-  console.log(info);
-
+  
+  return info;
 }
-
 
 // =================================================================
 // routes
@@ -72,20 +83,28 @@ app.post("/add/api", (req, res) => {
   const roundRange = req.body.roundRange;
   const timeRange = req.body.timeRange;
   const description = req.body.description;
-  
 
   prepare();
   insert(excercise, subExcercise, roundRange, timeRange, description);
-
 });
 
 // =====================================
 // =====================================
 
 app.get("/homepage", (req, res) => {
-  loadDataBase()
+
+  const path = "./src/database/database.db";
+  try {
+    if (fs.existsSync(path)) {
+      const exercises = loadDataBase();
+      res.render("./homepage",{
+        exercises
+    })
+    }
+  } catch (err) {
+    console.error("please fill the DB first by adding an excercise");
+  }
   
-  res.render("homepage.twig");
 });
 
 // =====================================
