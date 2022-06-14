@@ -1,11 +1,12 @@
 {% extends "./layouts/main.twig" %}
-
+{% import "./macros/card.twig" as card %}
 
 {% block content %}
 	<main
 		data-bs-spy="scroll" data-bs-target="#navbar-example">
 		<!-- main page -->
 		<div class="d-flex flex-row width-100">
+
 			<div class="flex">
 				<button class="btn btn-primary btn btn-info d-flex my-5" type="button">
 					Yesterday
@@ -17,19 +18,9 @@
 					Tomorrow
 				</button>
 			</div>
-
-			<div class="card mx-auto align-self-center" style=" background-color: #d8f0f5fa">
-				<div class="card-body">
-					<h5 class="card-title">Exercise Number:{{exercises[0].id}}</h5>
-					<h6 class="card-subtitle mb-2 text-muted">{{exercises[0].taskName}}</h6>
-					<h6 class="card-subtitle mb-2 text-muted">{{exercises[0].subTaskName}}</h6>
-					<h6 class="card-subtitle mb-2 text-muted">Number of rounds:{{exercises[0].roundRange}}</h6>
-					<h6 class="card-subtitle mb-2 text-muted">Time of each round:{{exercises[0].timeRange}}</h6>
-				</div>
-			</div>
-
 		</div>
-
-
 	</main>
+
+	{{card.cards(exercises)}}
+
 {% endblock %}

@@ -1,0 +1,14 @@
+{% macro cards(exercises) %}
+{% for exercise in exercises %}
+<div class="card mx-auto align-self-center" style=" background-color: #d8f0f5fa">
+	<div class="card-body">
+		<h5 class="card-title">Exercise Number:{{exercise.id}}</h5>
+		<h6 class="card-subtitle mb-2 text-muted">{{exercise.taskName}}</h6>
+		<h6 class="card-subtitle mb-2 text-muted">{{exercise.subTaskName}}</h6>
+		<h6 class="card-subtitle mb-2 text-muted">Number of rounds:{{exercise.roundRange}}</h6>
+		<h6 class="card-subtitle mb-2 text-muted">Time of each round:{{exercises.timeRange}}</h6>
+		<h6 class="card-subtitle mb-2 text-muted">Time of each round:{{exercises.description}}</h6>
+	</div>
+</div>
+{% endfor %}
+{% endmacro %}
