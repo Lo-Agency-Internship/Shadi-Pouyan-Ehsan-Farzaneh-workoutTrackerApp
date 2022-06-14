@@ -1,106 +1,35 @@
-
-  {% extends "./layouts/main.twig" %}
-  
-  
-  {% block content %}
-     <main data-bs-spy="scroll" data-bs-target="#navbar-example">
-      <!-- main page -->
-      <div class="d-flex flex-row width-100">
-        <div class="flex">
-          <button
-            class="btn btn-primary btn btn-info d-flex my-5"
-            type="button"
-          >
-            Yesterday
-          </button>
-          <button
-            class="btn btn-primary btn btn-info d-flex my-5"
-            type="button"
-          >
-            Today
-          </button>
-          <button
-            class="btn btn-primary btn btn-info d-flex my-5"
-            type="button"
-          >
-            Tomorrow
-          </button>
-        </div>
-
-        <div class="card mx-auto align-self-center" style=" background-color: #d8f0f5fa">
-          <div class="card-body">
-            <h5 class="card-title">My Plan</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Cardio</h6>
-            <p class="card-text">
-              This is the list of workout witch I have to do. first/
-              second/third/.....................................................................................................................
-            </p>
-
-            <form class="row g-3">
-              <div class="col-auto">
-                <label for="staticRound" class="visually-hidden">Exercise</label>
-                <input
-                  type="text"
-                  readonly
-                  class="form-control-plaintext"
-                  id="staticExercise2"
-                  value="NameOfExercise"
-                />
-              </div>
-              <div class="col-auto">
-                <label for="inputExercise2" class="visually-hidden"
-                  >Exercise</label
-                >
-                <input
-                  type="Exercise"
-                  class="form-control"
-                  id="inputExercise2"
-                  placeholder="Add New Exercise"
-                />
-              </div>
-              <div class="col-auto">
-                <button type="submit" class="btn btn-primary mb-3">
-                  Add to my list
-                </button>
-              </div>
-            </form>
-
-            <a href="#" class="card-link">plan of yesterday </a>
-            <a href="#" class="card-link">plan of tomorrow</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <button
-            class="btn btn-secondary dropdown-toggle"
-            type="button"
-            id="dropdownMenuButton1"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Add to my schedule
-          </button>
-          <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">push ups</a></li>
-            <li><a class="dropdown-item" href="#">squatting</a></li>
-            <li><a class="dropdown-item" href="#">jump rope</a></li>
-            <li><a class="dropdown-item" href="#">running</a></li>
-            <li><a class="dropdown-item" href="#">sit up</a></li>
-            <li><a class="dropdown-item" href="#">lunge</a></li>
-            <li><a class="dropdown-item" href="#">dumbbell rows</a></li>
-            <li><a class="dropdown-item" href="#">planks</a></li>
-            <li><a class="dropdown-item" href="#">interval</a></li>
-            <li><a class="dropdown-item" href="#">abdominal crunches</a></li>
-            <li><a class="dropdown-item" href="#">cardio</a></li>
-            <li><a class="dropdown-item" href="#">stretching</a></li>
-          </ul>
-        </div>
-
-      </div>
-      
-
-      
-     </main>
-  {% endblock %}
-    
+{% extends "./layouts/main.twig" %}
 
 
+{% block content %}
+	<main
+		data-bs-spy="scroll" data-bs-target="#navbar-example">
+		<!-- main page -->
+		<div class="d-flex flex-row width-100">
+			<div class="flex">
+				<button class="btn btn-primary btn btn-info d-flex my-5" type="button">
+					Yesterday
+				</button>
+				<button class="btn btn-primary btn btn-info d-flex my-5" type="button">
+					Today
+				</button>
+				<button class="btn btn-primary btn btn-info d-flex my-5" type="button">
+					Tomorrow
+				</button>
+			</div>
+
+			<div class="card mx-auto align-self-center" style=" background-color: #d8f0f5fa">
+				<div class="card-body">
+					<h5 class="card-title">Exercise Number:{{exercises[0].id}}</h5>
+					<h6 class="card-subtitle mb-2 text-muted">{{exercises[0].taskName}}</h6>
+					<h6 class="card-subtitle mb-2 text-muted">{{exercises[0].subTaskName}}</h6>
+					<h6 class="card-subtitle mb-2 text-muted">Number of rounds:{{exercises[0].roundRange}}</h6>
+					<h6 class="card-subtitle mb-2 text-muted">Time of each round:{{exercises[0].timeRange}}</h6>
+				</div>
+			</div>
+
+		</div>
+
+
+	</main>
+{% endblock %}
