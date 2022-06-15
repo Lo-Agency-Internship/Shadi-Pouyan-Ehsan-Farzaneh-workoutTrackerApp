@@ -2,28 +2,38 @@
 {% import "./macros/card.twig" as card %}
 {% block scripts %}
  <script>
-       /*
-	   function deleteRemove(id){
-			return{
-			delete(id){
-				alert("delete kar mikone")
-				fetch("/homepage/delete", {
-						method: "POST", 
-						body: JSON.stringify(id),
-						})
-				}
+      function yesterday(){
+		alert("yesterday")
+	  }
+
+	  function today(){
+		
+		var today = new Date();
+		var dd = String(today.getDate()).padStart(2, '0');
+		var mm = String(today.getMonth() + 1).padStart(2, '0');
+		var yyyy = today.getFullYear();
+		today = yyyy + '-' + mm + '-' + dd;
+		console.log(today);
+		
+		{% for exercise in exercises %}
+			{
+				let exerciseDate = `{{exercise.date}}`
+				let exerciseDateYMD = exerciseDate.split("-")
+				let exerciseYear = exerciseDateYMD[0]
+				let exerciseMonth = exerciseDateYMD[1]
+				let exerciseDay = exerciseDateYMD[2]
 			}
-		}
-		*/
-		/*
-		function delete(id){
-				alert("delete kar mikone");
-				fetch("/homepage/delete", {
-						method: "POST", 
-						body: JSON.stringify(id),
-						})
-		}
-		*/
+
+			{% if (yyyy == exerciseYear) and (mm == exerciseMonth) and (dd==exerciseDay) %}
+				console.log("success")
+			{% endif %}
+
+		{% endfor %}
+	  }
+
+	  function tomorrow(){
+		alert("tomorrow")
+	  }
 </script>
 {% endblock %}
 {% block content %}
@@ -33,13 +43,13 @@
 		<div class="d-flex flex-row width-100">
 
 			<div class="flex">
-				<button class="btn btn-primary btn btn-info d-flex my-5" type="button">
+				<button class="btn btn-primary btn btn-info d-flex my-5" type="button" onclick="yesterday()">
 					Yesterday
 				</button>
-				<button class="btn btn-primary btn btn-info d-flex my-5" type="button">
+				<button class="btn btn-primary btn btn-info d-flex my-5" type="button" onclick="today()">
 					Today
 				</button>
-				<button class="btn btn-primary btn btn-info d-flex my-5" type="button">
+				<button class="btn btn-primary btn btn-info d-flex my-5" type="button" onclick="tomorrow()">
 					Tomorrow
 				</button>
 			</div>
@@ -47,4 +57,5 @@
 	</main>
 
 	{{card.cards(exercises)}}
+	
 {% endblock %}

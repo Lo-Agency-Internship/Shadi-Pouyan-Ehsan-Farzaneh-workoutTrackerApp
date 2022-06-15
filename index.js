@@ -37,6 +37,9 @@ const db = new Database(
     verbose: console.log;
   }
 );
+
+// ========================Functions===============================
+
 function prepare() {
   const statement = db.prepare(constants.CREATE_SAMPLE_TABLE);
   const info = statement.run();
@@ -49,6 +52,7 @@ function prepare() {
  * @param {string} timeRange
  * @param {string} description
  */
+
 function insert(taskName, subTaskName, roundRange, timeRange, description) {
   const statement = db.prepare(constants.INSERT_NEW_SAMPLE);
   const info = statement.run(
@@ -60,6 +64,7 @@ function insert(taskName, subTaskName, roundRange, timeRange, description) {
   );
   console.log(info);
 }
+
 function loadDataBase() {
   
   const statement = db.prepare(constants.LOAD_DATABASE);
@@ -68,6 +73,7 @@ function loadDataBase() {
   
   return info;
 }
+
 function deleteExercise(id) {
   
   const statement = db.prepare(constants.DELETE_EXERCISE);
@@ -76,6 +82,7 @@ function deleteExercise(id) {
   
   console.log(info);
 }
+
 
 // =================================================================
 // routes
@@ -127,6 +134,6 @@ app.post("/homepage/delete", (req, res) => {
 // =====================================
 app.listen(port, () => {
   console.log(
-    `The server is running succesfully on the http://localhost:${port}. `
+    `The server is running succesfully on the http://localhost:${port}.`
   );
 });
