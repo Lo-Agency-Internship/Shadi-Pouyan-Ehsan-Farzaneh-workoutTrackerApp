@@ -1,40 +1,14 @@
 {% extends "./layouts/main.twig" %}
 {% import "./macros/card.twig" as card %}
 {% block scripts %}
- <script>
-      function yesterday(){
-		alert("yesterday")
-	  }
-
-	  function today(){
-		
-		var today = new Date();
-		var dd = String(today.getDate()).padStart(2, '0');
-		var mm = String(today.getMonth() + 1).padStart(2, '0');
-		var yyyy = today.getFullYear();
-		today = yyyy + '-' + mm + '-' + dd;
-		console.log(today);
-		
-		{% for exercise in exercises %}
-			{
-				let exerciseDate = `{{exercise.date}}`
-				let exerciseDateYMD = exerciseDate.split("-")
-				let exerciseYear = exerciseDateYMD[0]
-				let exerciseMonth = exerciseDateYMD[1]
-				let exerciseDay = exerciseDateYMD[2]
-			}
-
-			{% if (yyyy == exerciseYear) and (mm == exerciseMonth) and (dd==exerciseDay) %}
-				<p>{{exercise.taskName}}</p>
-			{% endif %}
-
-		{% endfor %}
-	  }
-
-	  function tomorrow(){
-		alert("tomorrow")
-	  }
-</script>
+	<script>
+		function filterDays(askedDay) {
+			fetch (`/homepage/filterdays/${askedDay}`, {method: "POST"})
+			.then(data => {
+  			  console.log(data);
+ 			});
+		}
+	</script>
 {% endblock %}
 {% block content %}
 	<main
@@ -43,13 +17,13 @@
 		<div class="d-flex flex-row width-100">
 
 			<div class="flex">
-				<button class="btn btn-primary btn btn-info d-flex my-5" type="button" onclick="yesterday()">
+				<button class="btn btn-primary btn btn-info d-flex my-5" type="button" onclick="filterDays(1)">
 					Yesterday
 				</button>
-				<button class="btn btn-primary btn btn-info d-flex my-5" type="button" onclick="today()">
+				<button class="btn btn-primary btn btn-info d-flex my-5" type="button" onclick="filterDays(2)">
 					Today
 				</button>
-				<button class="btn btn-primary btn btn-info d-flex my-5" type="button" onclick="tomorrow()">
+				<button class="btn btn-primary btn btn-info d-flex my-5" type="button" onclick="filterDays(3)">
 					Tomorrow
 				</button>
 			</div>
@@ -57,5 +31,5 @@
 	</main>
 
 	{{card.cards(exercises)}}
-	
+
 {% endblock %}
