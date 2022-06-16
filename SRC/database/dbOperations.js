@@ -2,7 +2,7 @@ const constants = require("./constants");
 const { Ldb } = require("./initialDataBase");
 // ========================Functions===============================
 
-function prepareDB() {
+function prepareTable() {
   const statement = Ldb.prepare(constants.CREATE_SAMPLE_TABLE);
   const info = statement.run();
 }
@@ -26,6 +26,18 @@ function insert(taskName, subTaskName, roundRange, timeRange, description) {
   )
 }
 
+function testInsertYesterday(taskName, subTaskName, roundRange, timeRange, description, date) {
+  const statement = Ldb.prepare(constants.TEST_INSERT_YESTERDAY);
+  const info = statement.run(
+    taskName,
+    subTaskName,
+    roundRange,
+    timeRange,
+    description,
+    date
+  )
+}
+
 function loadDataBase() {
   const statement = Ldb.prepare(constants.LOAD_DATABASE);
   const info = statement.all();
@@ -38,8 +50,9 @@ function deleteExercise(id) {
 }
 
 module.exports = {
-  prepareDB,
+  prepareTable,
   insert,
   loadDataBase,
   deleteExercise,
+  testInsertYesterday
 };

@@ -17,5 +17,13 @@ module.exports = {
     date)
     VALUES(?,?,?,?,?,CURRENT_DATE)`,
   LOAD_DATABASE: `SELECT * FROM excercises`,
-  DELETE_EXERCISE: `DELETE FROM excercises WHERE id=?`
+  DELETE_EXERCISE: `DELETE FROM excercises WHERE id=?`,
+  TEST_INSERT_YESTERDAY:`INSERT INTO excercises (
+    taskName,
+    subTaskName,
+    roundRange,
+    timeRange,
+    description,
+    date)
+    VALUES(?,?,?,?,?,?)`
 };
