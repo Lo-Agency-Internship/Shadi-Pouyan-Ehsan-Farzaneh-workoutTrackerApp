@@ -2,11 +2,9 @@
 {% import "./macros/card.twig" as card %}
 {% block scripts %}
 	<script>
-		function filterDays(askedDay) {
-			fetch (`/homepage/filterdays/${askedDay}`, {method: "POST"})
-			.then(data => {
-  			  console.log(data);
- 			});
+		async function filterDays(askedDay) {
+			const data = await fetch (`/homepage/filterdays/${askedDay}`, {method: "POST"})
+			console.log(data)
 		}
 	</script>
 {% endblock %}

@@ -87,6 +87,7 @@ app.get("/homepage", (req, res) => {
 });
 
 // =================================
+// =================================
 
 app.post("/homepage/delete", (req, res) => {
   const exercise = req.body;
@@ -94,6 +95,7 @@ app.post("/homepage/delete", (req, res) => {
   res.redirect("/homepage");
 });
 
+// =================================
 // =================================
 
 app.post("/homepage/filterdays/:askedDay", (req, res) => {
@@ -138,10 +140,12 @@ app.post("/homepage/filterdays/:askedDay", (req, res) => {
           break;
       }
   });
-  
-  res.render("./homepage", {
-    exercises
-  });
+
+  res.send({"exercises":exercises})
+ 
+  // res.render("./homepage", {
+  //   exercises
+  // });
  
 });
 
@@ -149,6 +153,7 @@ app.post("/homepage/filterdays/:askedDay", (req, res) => {
 // =================================================================
 // informative pages
 // =================================================================
+
 app.get("/information", (req, res) => {
   res.render("information.twig");
 });
