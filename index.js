@@ -4,8 +4,6 @@ const path = require("path");
 
 const { parse } = require("path");
 
-const { load, save } = require("./utils");
-
 const axios = require("axios").default;
 
 const fs = require("fs");
@@ -140,7 +138,7 @@ app.post("/homepage/filterdays/:askedDay", (req, res) => {
           break;
       }
   });
-
+  console.log({exercises})
   res.send({"exercises":exercises})
  
   // res.render("./homepage", {
