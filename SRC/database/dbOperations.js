@@ -1,7 +1,27 @@
 const constants = require("./constants");
 const { Ldb } = require("./initialDataBase");
 // ========================Functions===============================
+// ========================For Users===============================
 
+function prepareUser() {
+  const statement = Ldb.prepare(constants.Create_user);
+  const info = statement.run();
+}
+function insertUser(name, email, password) {
+  const statement = Ldb.prepare(constants.Insert_user);
+  const info = statement.run(name, email, password)
+}
+function findUser(id) {
+  const statement = Ldb.prepare(constants.Find_user);
+  const user = statement.get(id);
+  return user;
+}
+function selectUser() {
+  const statement = Ldb.prepare(constants.Select_user);
+  const users = statement.all()
+  return users
+}
+// ========================For exercise===============================
 function prepareTable() {
   const statement = Ldb.prepare(constants.CREATE_SAMPLE_TABLE);
   const info = statement.run();
@@ -50,6 +70,10 @@ function deleteExercise(id) {
 }
 
 module.exports = {
+  prepareUser,
+  insertUser,
+  findUser,
+  selectUser,
   prepareTable,
   insert,
   loadDataBase,
