@@ -22,10 +22,11 @@ initializedDB();
 // =======================================================
 
 const {
-  prepareDB,
+  prepareTable,
   insert,
   deleteExercise,
   loadDataBase,
+  testInsertYesterday,
 } = require("./src/database/dbOperations");
 
 const app = express();
@@ -62,7 +63,7 @@ app.post("/add/api", (req, res) => {
   const timeRange = req.body.timeRange;
   const description = req.body.description;
 
-  prepareDB();
+  prepareTable();
 
   insert(excercise, subExcercise, roundRange, timeRange, description);
 });
@@ -93,6 +94,65 @@ app.post("/homepage/delete", (req, res) => {
   res.redirect("/homepage");
 });
 
+// =================================
+
+app.post("/homepage/filterdays/:askedDay", (req, res) => {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, "0");
+  var prevDay = String(Number(dd) - 1);
+  var nextDay = String(Number(dd) + 1);
+  var mm = String(today.getMonth() + 1).padStart(2, "0");
+  var yyyy = String(today.getFullYear());
+  
+  const yesterdayDate = [yyyy, mm, prevDay];
+  const todayDate = [yyyy, mm, dd];
+  const tomorrowDate = [yyyy, mm, nextDay];
+
+  const askedDay = req.params.askedDay;
+  const allExercises = loadDataBase();
+
+  let exercises = [];
+
+  let filteration = allExercises.filter(function (item) {
+    let exerciseDate = item.date.split("-");
+      switch (askedDay) {
+        case "1":
+          if (JSON.stringify(exerciseDate) == JSON.stringify(yesterdayDate)) {
+            exercises.push(item);
+          }
+          break;
+
+        case "2":
+          if (JSON.stringify(exerciseDate) == JSON.stringify(todayDate)) {
+            exercises.push(item);
+          }
+          break;
+
+        case "3":
+          if (JSON.stringify(exerciseDate) == JSON.stringify(tomorrowDate)) {
+            exercises.push(item);
+          }
+          break;
+
+        default:
+          break;
+      }
+  });
+  
+  res.render("./homepage", {
+    exercises
+  });
+ 
+});
+
+
+// =================================================================
+// informative pages
+// =================================================================
+app.get("/information", (req, res) => {
+  res.render("information.twig");
+});
+
 // =================================================================
 // listen port
 // =================================================================
@@ -102,3 +162,19 @@ app.listen(port, () => {
     `The server is running succesfully on the http://localhost:${port}.`
   );
 });
+
+// const excercise = "yesterday";
+// const subExcercise = "yesterday";
+// const roundRange = "9";
+// const timeRange = "9";
+// const description = "yesterday";
+// const date = "2022-06-14";
+// prepareTable();
+// testInsertYesterday(
+//   excercise,
+//   subExcercise,
+//   roundRange,
+//   timeRange,
+//   description,
+//   date
+// );
