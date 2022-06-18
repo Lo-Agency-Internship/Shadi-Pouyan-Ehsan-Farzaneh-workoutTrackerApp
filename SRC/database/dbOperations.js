@@ -7,13 +7,13 @@ function prepareUser() {
   const statement = Ldb.prepare(constants.Create_user);
   const info = statement.run();
 }
-function insertUser(name, email, password) {
+function insertUser(name, email, password, hash, salt) {
   const statement = Ldb.prepare(constants.Insert_user);
-  const info = statement.run(name, email, password)
+  const info = statement.run(name, email, password, hash, salt)
 }
-function findUser(id) {
+function findUser(email) {
   const statement = Ldb.prepare(constants.Find_user);
-  const user = statement.get(id);
+  const user = statement.get(email);
   return user;
 }
 function selectUser() {
@@ -35,14 +35,15 @@ function prepareTable() {
  * @param {string} description
  */
 
-function insert(taskName, subTaskName, roundRange, timeRange, description) {
+function insert(taskName, subTaskName, roundRange, timeRange, description, userId) {
   const statement = Ldb.prepare(constants.INSERT_NEW_SAMPLE);
   const info = statement.run(
     taskName,
     subTaskName,
     roundRange,
     timeRange,
-    description
+    description,
+    userId
   )
 }
 

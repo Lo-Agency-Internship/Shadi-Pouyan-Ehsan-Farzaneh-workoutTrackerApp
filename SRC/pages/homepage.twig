@@ -7,6 +7,9 @@
 			const data = await res.json()
 			console.log (data)
 		}
+
+	localStorage.setItem("userId", {{userId}});
+
 	</script>
 {% endblock %}
 {% block content %}
@@ -16,6 +19,7 @@
 		<div class="d-flex flex-row width-100">
 
 			<div class="flex">
+				<h1>{{userId}}</h1>
 				<button class="btn btn-primary btn btn-info d-flex my-5" type="button" onclick="filterDays(1)">
 					Yesterday
 				</button>
