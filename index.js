@@ -4,6 +4,8 @@ const path = require("path");
 
 const { parse } = require("path");
 
+const crypto = require("crypto");
+
 const axios = require("axios").default;
 
 const fs = require("fs");
@@ -20,6 +22,10 @@ initializedDB();
 // =======================================================
 
 const {
+  prepareUser,
+  insertUser,
+  findUser,
+  selectUser,
   prepareTable,
   insert,
   deleteExercise,
@@ -45,11 +51,64 @@ app.set("views", path.join(__dirname, "src", "pages"));
 // =================================================================
 
 // =================================================================
+// create user
+// =================================================================
+
+// serving the / route
+app.get("/", (req, res) => {
+  // res.render("signUp")
+  res.sendFile(__dirname + "/src/pages" + "/register.html")
+});
+
+app.post("/", (req, res) => {
+  const data = req.body
+  console.log(req.body);
+  prepareUser();
+  const salt = crypto.randomBytes(16).toString('hex');
+  const hash = crypto.pbkdf2Sync(data.password, salt, 1000, 64, `sha512`).toString(`hex`);
+  console.log(hash, salt);
+  // inserting the user into user table
+  insertUser(data.name, data.email, data.password, salt, hash)
+  console.log(data.id);
+  res.sendFile('./src/pages/login.html', { root: __dirname });
+  // res.redirect('./login.html')
+  // if (user != undefined) {
+  //     console.log('user')
+  //     const statement = db.prepare(`INSERT INTO user(name, email, password) VALUES(?,?,?)`)
+
+  //     statement.run(user.name, user.emali, user.password);
+  // }
+  // else {
+  //     console.log('getting undefined data');
+  //     return res.send('undefined data')
+  // }
+})
+app.get('/login', (req, res) => {
+  res.sendFile(__dirname + "/src/pages" + "/login.html")
+})
+
+app.post('/login', (req, res) => {
+  const data = req.body;
+  // if (data.email && data.password) {
+  //   selectUser(data.email);
+  // }
+  console.log(data.email);
+  const user = findUser(data.email);
+  console.log(user.id);
+  const userId = user.id;
+  res.render("./homepage", { userId });
+
+})
+
+// =================================================================
 // add exercise
 // =================================================================
 
 app.get("/add", (req, res) => {
-  res.render("add.twig");
+  const body = req.body;
+  console.log(req.body);
+  const userId = body.userId;
+  res.render("add.twig", { userId });
 });
 
 // =================================
@@ -60,10 +119,11 @@ app.post("/add/api", (req, res) => {
   const roundRange = req.body.roundRange;
   const timeRange = req.body.timeRange;
   const description = req.body.description;
+  const userId = req.body.userId;
 
   prepareTable();
 
-  insert(excercise, subExcercise, roundRange, timeRange, description);
+  insert(excercise, subExcercise, roundRange, timeRange, description, userId);
 });
 
 // =================================================================
@@ -103,7 +163,7 @@ app.post("/homepage/filterdays/:askedDay", (req, res) => {
   var nextDay = String(Number(dd) + 1);
   var mm = String(today.getMonth() + 1).padStart(2, "0");
   var yyyy = String(today.getFullYear());
-  
+
   const yesterdayDate = [yyyy, mm, prevDay];
   const todayDate = [yyyy, mm, dd];
   const tomorrowDate = [yyyy, mm, nextDay];
@@ -115,36 +175,36 @@ app.post("/homepage/filterdays/:askedDay", (req, res) => {
 
   let filteration = allExercises.filter(function (item) {
     let exerciseDate = item.date.split("-");
-      switch (askedDay) {
-        case "1":
-          if (JSON.stringify(exerciseDate) == JSON.stringify(yesterdayDate)) {
-            exercises.push(item);
-          }
-          break;
+    switch (askedDay) {
+      case "1":
+        if (JSON.stringify(exerciseDate) == JSON.stringify(yesterdayDate)) {
+          exercises.push(item);
+        }
+        break;
 
-        case "2":
-          if (JSON.stringify(exerciseDate) == JSON.stringify(todayDate)) {
-            exercises.push(item);
-          }
-          break;
+      case "2":
+        if (JSON.stringify(exerciseDate) == JSON.stringify(todayDate)) {
+          exercises.push(item);
+        }
+        break;
 
-        case "3":
-          if (JSON.stringify(exerciseDate) == JSON.stringify(tomorrowDate)) {
-            exercises.push(item);
-          }
-          break;
+      case "3":
+        if (JSON.stringify(exerciseDate) == JSON.stringify(tomorrowDate)) {
+          exercises.push(item);
+        }
+        break;
 
-        default:
-          break;
-      }
+      default:
+        break;
+    }
   });
-  console.log({exercises})
-  res.send({"exercises":exercises})
- 
+  console.log({ exercises })
+  res.send({ "exercises": exercises })
+
   // res.render("./homepage", {
   //   exercises
   // });
- 
+
 });
 
 

@@ -30,13 +30,13 @@
 
                                     <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign In</p>
 
-                                    <form class="mx-1 mx-md-6" x-data="form()" @submit.prevent="submit" method="POST">
+                                    <form class="mx-1 mx-md-6" x-data="form()" method="POST" action="/login">
 
                                         <div class="d-flex flex-row align-items-center mb-4">
                                             <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                             <div class="form-floating flex-fill mb-0">
                                                 <input type="email" id="Email" class="form-control"
-                                                    placeholder="Enter email" x-model="email" />
+                                                    placeholder="Enter email" x-model="email" name="email" value="" />
                                                 <label class="form-label">Your Email</label>
                                                 <!-- For Error Handleing -->
                                                 <div class="invalid-feedback col-md-12 d-flex align-items-center"
@@ -50,16 +50,14 @@
                                             <div class="form-floating flex-fill mb-0" x-data="{showPassword:false}">
                                                 <input x-bind:type="showPassword ? 'text' :'password'" id="Password"
                                                     style="position:relative" class="form-control"
-                                                    placeholder="Enter password" x-model="password" />
+                                                    placeholder="Enter password" x-model="password" name="password"
+                                                    value="" />
                                                 <i class="fa" x-bind:class="showPassword ? 'fa-eye' : 'fa-eye-slash'"
                                                     style="position: absolute;
                                                     right: 1.1rem;
                                                     top: 1.3rem;
                                                     cursor: pointer;" x-on:click="showPassword =! showPassword"></i>
                                                 <label class="form-label">Password</label>
-                                                <!-- For Error Handleing -->
-                                                <div class="invalid-feedback col-md-12 d-flex align-items-center">
-                                                </div>
                                             </div>
                                         </div>
 

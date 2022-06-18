@@ -12,6 +12,7 @@
                 timeRange:'',
                 description:'',
                 newSubTask:'',
+				userId: localStorage.getItem("userId"),
                 toggleShowAndSaveExercise(event) {
                     event.preventDefault();
                     this.show = ! this.show;
@@ -28,6 +29,7 @@
 								roundRange: this.roundRange,
 								timeRange: this.timeRange,
 								description: this.description,
+								userId: this.userId
 								};
 
 					fetch("/add/api", {
