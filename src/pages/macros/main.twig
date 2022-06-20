@@ -1,19 +1,25 @@
 {% macro accordionItem(title, items, cb) %}
 	<div class="accordion-item">
+
 		<h2 class="accordion-header">
 			<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{ title }}" aria-expanded="false" aria-controls="{{ title }}">
 				{{ title }}
 			</button>
 		</h2>
+
 		<div id="{{ title }}" class="accordion-collapse collapse" aria-labelledby="heading-3" data-bs-parent="#chapters">
+			
 			<div class="accordion-body pt-0 mt-0">
 				{% for item in items%}
 					<br><button value="{{ item.value }}" @click="{{ item.onClick }}" class="btn btn-secondary mb-1">{{ item.name }}</button>
 				{% endfor %}
 			</div>
+
 			<form>
 				<input value="" x-model="newSubTask"></input>
 				<button class="btn btn-secondary mb-1" @click="{{cb}}" x-bind:disabled="newSubTask===''">add to sub Exercise</button>
 			</form>
+			
 		</div>
+
 	</div>{% endmacro %}

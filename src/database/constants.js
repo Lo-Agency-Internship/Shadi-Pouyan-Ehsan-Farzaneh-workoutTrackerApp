@@ -17,7 +17,20 @@ module.exports = {
   Select_user: `SELECT * FROM users`,
   Find_user: `SELECT * FROM users WHERE email = ?`,
 
-  CREATE_SAMPLE_TABLE: `CREATE TABLE IF NOT EXISTS excercises(
+  CREATE_EXERCISE_CATEGORY_TABLE: `CREATE TABLE IF NOT EXISTS excercises(
+    id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+    taskName text,
+    subTaskName text
+    )`,
+  INSERT_TO_EXERCISE_CATEGORY: `INSERT INTO excercises (
+    taskName,
+    subTaskName
+  )
+    VALUES(?,?)
+          `,
+  LOAD_EXERCISE_CATEGORY: `SELECT * FROM excercises`,
+
+  CREATE_USER_EXERCISE_TABLE: `CREATE TABLE IF NOT EXISTS userExercise(
     id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
     taskName text,
     subTaskName text,
@@ -28,7 +41,7 @@ module.exports = {
     userId INTEGER,
     FOREIGN KEY(userId) REFERENCES users(id)
     )`,
-  INSERT_NEW_SAMPLE: `INSERT INTO excercises (
+  INSERT_TO_USER_EXERCISE: `INSERT INTO userExercise (
     taskName,
     subTaskName,
     roundRange,
@@ -37,16 +50,7 @@ module.exports = {
     date,
     userId
   )
-    VALUES(?,?,?,?,?,CURRENT_DATE,?)`,
-  LOAD_DATABASE: `SELECT * FROM excercises WHERE userId=?`,
-  // Find_EXERCISE: `SELECT * FROM excercises WHERE userId=?`,
-  DELETE_EXERCISE: `DELETE FROM excercises WHERE id=?`,
-  TEST_INSERT_YESTERDAY: `INSERT INTO excercises (
-    taskName,
-    subTaskName,
-    roundRange,
-    timeRange,
-    description,
-    date)
-    VALUES(?,?,?,?,?,?)`
+    VALUES(?,?,?,?,?,?,?)`,
+  LOAD_USER_EXERCISE: `SELECT * FROM excercises WHERE userId=?`,
+  DELETE_USER_EXERCISE: `DELETE FROM excercises WHERE id=?`
 };

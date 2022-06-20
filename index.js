@@ -26,12 +26,21 @@ const {
   insertUser,
   findUser,
   selectUser,
-  prepareTable,
-  insert,
-  deleteExercise,
-  loadDataBase,
-  testInsertYesterday,
+  prepareUserExerciseTable,
+  insertToUserExerciseTable,
+  deleteFromUserExerciseTable,
+  loadUserExerciseTable,
+  loadExerciseCategoryTable,
+  prepareExerciseCategoryTable,
+  insertToExerciseCategoryTable,
 } = require("./src/database/dbOperations");
+console.log("1")
+prepareExerciseCategoryTable();
+console.log("2")
+insertToExerciseCategoryTable();
+console.log("3")
+// =======================================================
+
 const { request } = require("http");
 
 const app = express();
@@ -110,11 +119,20 @@ app.post('/login', (req, res) => {
 // =================================================================
 
 app.get("/add", (req, res) => {
-  const body = req.body;
-  console.log(req.body);
-  const userId = body.userId;
-  // req.getHeader("user-id", userId);
-  res.render("add.twig", { userId });
+
+  const path = "./src/database/database.db";
+  try {
+    if (fs.existsSync(path)) {
+      const userId = idCookie;
+      const exercises = loadExerciseCategoryTable();
+      console.log(exercises);
+      res.render("./add", {
+        exercises,
+      });
+    }
+  } catch (err) {
+    res.render("information");
+  }
 });
 
 // =================================
@@ -125,11 +143,12 @@ app.post("/add/api", (req, res) => {
   const roundRange = req.body.roundRange;
   const timeRange = req.body.timeRange;
   const description = req.body.description;
-  const userId = req.body.userId;
+  const exerciseDate = req.body.exerciseDate;
+  const userId = req.headers.cookie.split('=')[1];
 
-  prepareTable();
+  prepareUserExerciseTable();
 
-  insert(excercise, subExcercise, roundRange, timeRange, description, userId);
+  insertToUserExerciseTable(excercise, subExcercise, roundRange, timeRange, description, exerciseDate, userId);
 });
 
 // =================================================================
@@ -145,7 +164,7 @@ app.get("/homepage", (req, res) => {
 
       const userId = idCookie;
       console.log("ok", userId)
-      const exercises = loadDataBase(userId);
+      const exercises = loadUserExerciseTable(userId);
       console.log(exercises);
       res.render("./homepage", {
         exercises,
@@ -161,7 +180,7 @@ app.get("/homepage", (req, res) => {
 
 app.post("/homepage/delete", (req, res) => {
   const exercise = req.body;
-  deleteExercise(exercise.exerciseID);
+  deleteFromUserExerciseTable(exercise.exerciseID);
   res.redirect("/homepage");
 });
 
@@ -181,7 +200,7 @@ app.post("/homepage/filterdays/:askedDay", (req, res) => {
   const tomorrowDate = [yyyy, mm, nextDay];
 
   const askedDay = req.params.askedDay;
-  const allExercises = loadDataBase();
+  const allExercises = loadUserExerciseTable();
 
   let exercises = [];
 

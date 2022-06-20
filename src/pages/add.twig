@@ -12,6 +12,7 @@
                 timeRange:'',
                 description:'',
                 newSubTask:'',
+				exerciseDate:'',
                 toggleShowAndSaveExercise(event) {
                     event.preventDefault();
                     this.show = ! this.show;
@@ -28,7 +29,8 @@
 								roundRange: this.roundRange,
 								timeRange: this.timeRange,
 								description: this.description,
-								userId: this.userId
+								userId: this.userId,
+								exerciseDate: this.exerciseDate
 								};
 
 					fetch("/add/api", {
@@ -269,7 +271,11 @@
 							<label for="timeRange" class="form-label fw-bold">Duration Of rounds</label>
 							<input type="range" class="form-range" id="timeRange" value="5" min="1" max="60" oninput="this.nextElementSibling.value = this.value" x-model="timeRange">
 							<output>5</output>&nbsp minutes(s)
-	
+							<hr>
+							<label for="exerciseDate" class="form-label fw-bold">Exercise Date</label>
+							<input type="date" x-model="exerciseDate">
+							
+
 							<div class="input-group w-100">
 								<div class="form-group w-100">
 									<hr>
