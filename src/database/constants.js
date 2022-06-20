@@ -2,7 +2,6 @@ module.exports = {
   Create_user: `CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT,
     name varchar(50) NOT NULL, 
     email varchar(50) NOT NULL, 
-    password varchar(50) NOT NULL,
     hash string,
     salt string
     )`,
@@ -10,11 +9,10 @@ module.exports = {
   Insert_user: `INSERT INTO users( 
     name, 
     email, 
-    password,
     hash,
     salt
     ) VALUES 
-    (?,?,?,?,?)`,
+    (?,?,?,?)`,
 
   Select_user: `SELECT * FROM users`,
   Find_user: `SELECT * FROM users WHERE email = ?`,
@@ -40,8 +38,8 @@ module.exports = {
     userId
   )
     VALUES(?,?,?,?,?,CURRENT_DATE,?)`,
-  LOAD_DATABASE: `SELECT * FROM excercises`,
-  Find_EXERCISE: `SELECT * FROM excercises WHERE userId=?`,
+  LOAD_DATABASE: `SELECT * FROM excercises WHERE userId=?`,
+  // Find_EXERCISE: `SELECT * FROM excercises WHERE userId=?`,
   DELETE_EXERCISE: `DELETE FROM excercises WHERE id=?`,
   TEST_INSERT_YESTERDAY: `INSERT INTO excercises (
     taskName,

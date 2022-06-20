@@ -32,6 +32,7 @@ const {
   loadDataBase,
   testInsertYesterday,
 } = require("./src/database/dbOperations");
+const { request } = require("http");
 
 const app = express();
 
@@ -63,25 +64,27 @@ app.get("/", (req, res) => {
 app.post("/", (req, res) => {
   const data = req.body
   console.log(req.body);
-  prepareUser();
-  const salt = crypto.randomBytes(16).toString('hex');
-  const hash = crypto.pbkdf2Sync(data.password, salt, 1000, 64, `sha512`).toString(`hex`);
-  console.log(hash, salt);
-  // inserting the user into user table
-  insertUser(data.name, data.email, data.password, salt, hash)
-  console.log(data.id);
-  res.sendFile('./src/pages/login.html', { root: __dirname });
-  // res.redirect('./login.html')
-  // if (user != undefined) {
-  //     console.log('user')
-  //     const statement = db.prepare(`INSERT INTO user(name, email, password) VALUES(?,?,?)`)
+  if (data.password === data.repeatPassword) {
+    prepareUser();
+    const salt = crypto.randomBytes(16).toString('hex');
+    const hash = crypto.pbkdf2Sync(data.password, salt, 1000, 64, `sha512`).toString(`hex`);
+    console.log(hash, salt);
+    // inserting the user into user table
+    insertUser(data.name, data.email, hash, salt)
+    console.log(data.id);
+    res.sendFile('./src/pages/login.html', { root: __dirname });
+    // res.redirect('./login.html')
+    // if (user != undefined) {
+    //     console.log('user')
+    //     const statement = db.prepare(`INSERT INTO user(name, email, password) VALUES(?,?,?)`)
 
-  //     statement.run(user.name, user.emali, user.password);
-  // }
-  // else {
-  //     console.log('getting undefined data');
-  //     return res.send('undefined data')
-  // }
+    //     statement.run(user.name, user.emali, user.password);
+    // }
+    // else {
+    //     console.log('getting undefined data');
+    //     return res.send('undefined data')
+    // }
+  }
 })
 app.get('/login', (req, res) => {
   res.sendFile(__dirname + "/src/pages" + "/login.html")
@@ -89,6 +92,7 @@ app.get('/login', (req, res) => {
 
 app.post('/login', (req, res) => {
   const data = req.body;
+  console.log(data);
   // if (data.email && data.password) {
   //   selectUser(data.email);
   // }
@@ -96,7 +100,8 @@ app.post('/login', (req, res) => {
   const user = findUser(data.email);
   console.log(user.id);
   const userId = user.id;
-  res.render("./homepage", { userId });
+  res.cookie("user-id", userId);
+  res.redirect("/homepage");
 
 })
 
@@ -108,6 +113,7 @@ app.get("/add", (req, res) => {
   const body = req.body;
   console.log(req.body);
   const userId = body.userId;
+  // req.getHeader("user-id", userId);
   res.render("add.twig", { userId });
 });
 
@@ -131,10 +137,16 @@ app.post("/add/api", (req, res) => {
 // =================================================================
 
 app.get("/homepage", (req, res) => {
+  console.log(req.headers.cookie);
+  const idCookie = req.headers.cookie.split('=')[1];
   const path = "./src/database/database.db";
   try {
     if (fs.existsSync(path)) {
-      const exercises = loadDataBase();
+
+      const userId = idCookie;
+      console.log("ok", userId)
+      const exercises = loadDataBase(userId);
+      console.log(exercises);
       res.render("./homepage", {
         exercises,
       });
