@@ -33,12 +33,20 @@ const {
   loadExerciseCategoryTable,
   prepareExerciseCategoryTable,
   insertToExerciseCategoryTable,
+  prepareSubExerciseCategoryTable,
+  loadSubExerciseCategoryTable,
+  insertToSubExerciseCategoryTable,
+  insertNewToSubExerciseCategoryTable,
 } = require("./src/database/dbOperations");
-console.log("1")
+
 prepareExerciseCategoryTable();
-console.log("2")
+
 insertToExerciseCategoryTable();
-console.log("3")
+
+prepareSubExerciseCategoryTable();
+
+insertToSubExerciseCategoryTable();
+
 // =======================================================
 
 const { request } = require("http");
@@ -119,15 +127,40 @@ app.post('/login', (req, res) => {
 // =================================================================
 
 app.get("/add", (req, res) => {
-
   const path = "./src/database/database.db";
   try {
     if (fs.existsSync(path)) {
-      const userId = idCookie;
+
+      // const userId = idCookie;
+
       const exercises = loadExerciseCategoryTable();
-      console.log(exercises);
+      console.log("z")
+      const subExercises = loadSubExerciseCategoryTable();
+      
+      console.log("===============exercises========================")
+      console.log(exercises)
+      console.log("zz")
+      console.log("================subExercises======================")
+      console.log(subExercises)
+      // const exerciseByCategory = [];
+
+      // exercises.map((item, index, arr)=>{
+        
+      //   if (index===exercises.length-1) return false;
+        
+      //   const cat = [];
+        
+      //   if (item.taskName===arr[index+1].taskName) {
+      //     cat.push(item);
+      //     cat.push(arr[index+1])
+      //     exerciseByCategory.push(cat)        
+      //   }
+
+      // })
+
       res.render("./add", {
         exercises,
+        subExercises
       });
     }
   } catch (err) {
@@ -150,6 +183,22 @@ app.post("/add/api", (req, res) => {
 
   insertToUserExerciseTable(excercise, subExcercise, roundRange, timeRange, description, exerciseDate, userId);
 });
+
+app.post("/add/sub/api", (req, res) => {
+  const taskId = req.body.taskId;
+  const newSubTask = req.body.newSubTask;
+  console.log("reqbody")
+  console.log(req.body)
+  console.log("taskId");
+  console.log(taskId)
+  console.log("newSubTask1");
+  console.log(newSubTask);
+  insertNewToSubExerciseCategoryTable(newSubTask, taskId)
+  
+})
+
+
+
 
 // =================================================================
 // homepage

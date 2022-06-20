@@ -13,6 +13,7 @@
                 description:'',
                 newSubTask:'',
 				exerciseDate:'',
+				taskId:'',
                 toggleShowAndSaveExercise(event) {
                     event.preventDefault();
                     this.show = ! this.show;
@@ -44,8 +45,20 @@
 					});*/
 					
                 },
-                SaveNewSubExercise(event) {
-                    event.preventDefault();
+                SaveNewSubExercise(event,id) {
+					console.log("alert");
+					event.preventDefault();
+					let data = {newSubTask: this.newSubTask,
+								taskId: id
+					}
+					
+					fetch("/add/sub/api", {
+					method: "POST",
+					headers: {'Content-Type': 'application/json'}, 
+					body: JSON.stringify(data),
+					})
+
+                    
                     console.log(this.newSubTask)
                 }
 				
@@ -60,204 +73,36 @@
 			<div class="row">
 				<!-- =======================CATEGORIES========================================== -->
 				<!-- ============================================================================= -->
-					<div class="col-lg-6"> <p class=" text-center m-2 text-bolder bg-info m-1 p-1 rounded">Choose One Category</p>
-	
+				<div class="col-lg-6"> <p class=" text-center m-2 text-bolder bg-info m-1 p-1 rounded">Choose One Category</p>
 					<!-- accordions starts here-->
 					<!-- ============================================================================= -->
 					<div class="accordion" id="chapters">
 	
-						<!--ABS accordion-->
+						<!-- accordion-->
+						
 						<!-- ======================================================================= -->
-						{{ main.accordionItem("ABS", [
-	                    {
-	                        value: "ABS,Flat bench leg raise",
-	                        name: "Flat bench leg raise",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    },
-	                    {
-	                        value: "ABS,Flutter kicks",
-	                        name: "Flutter kicks",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    },
-	                    {
-	                        value: "ABS,Toe reach",
-	                        name: "Toe reach",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    },
-	                    {
-	                        value: "ABS,Reverse crunch",
-	                        name: "Reverse crunch",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    },
-	                    {
-	                        value: "ABS,Bicycle crunch",
-	                        name: "Bicycle crunch",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    },
-	                    {
-	                        value: "ABS,Russian twist",
-	                        name: "Russian twist",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    }
-	                    ],
-	                    "SaveNewSubExercise($event)")
-	                    }}
-	
-						<!--BACK accordion-->
-						<!-- ======================================================================= -->
-						{{ main.accordionItem("BACK", [
-	                    {
-	                        value: "BACK,back1",
-	                        name: "back1",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    },
-	                    {
-	                        value: "BACK,back2",
-	                        name: "back2",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    },
-	                    {
-	                        value: "BACK,back3",
-	                        name: "back3",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    },
-	                    {
-	                        value: "BACK,back4",
-	                        name: "back4",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    }
-	                    ],
-	                    "SaveNewSubExercise($event)")
-	                    }}
-	
-						<!--BICEP accordion-->
-						<!-- ======================================================================= -->
-						{{ main.accordionItem("BICEP", [
-	                    {
-	                        value: "BICEP,bicep1",
-	                        name: "bicep1",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    },
-	                    {
-	                        value: "BICEP,bicep2",
-	                        name: "bicep2",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    },
-	                    {
-	                        value: "BICEP,bicep3",
-	                        name: "bicep3",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    },
-	                    {
-	                        value: "BICEP,bicep4",
-	                        name: "bicep4",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    }
-	                    ],
-	                    "SaveNewSubExercise($event)")
-	                    }}
-	
-						<!--LEGS accordion-->
-						<!-- ======================================================================= -->
-						{{ main.accordionItem("LEGS", [
-	                    {
-	                        value: "LEGS,legs1",
-	                        name: "legs1",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    },
-	                    {
-	                        value: "LEGS,legs2",
-	                        name: "legs2",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    },
-	                    {
-	                        value: "LEGS,legs3",
-	                        name: "legs3",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    },
-	                    {
-	                        value: "LEGS,legs4",
-	                        name: "legs4",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    }
-	                    ],
-	                    "SaveNewSubExercise($event)")
-	                    }}
-	
-						<!--CHEST accordion-->
-						<!-- ======================================================================= -->
-						{{ main.accordionItem("CHEST", [
-	                    {
-	                        value: "CHEST,chest1",
-	                        name: "chest1",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    },
-	                    {
-	                        value: "CHEST,chest2",
-	                        name: "chest2",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    },
-	                    {
-	                        value: "CHEST,chest3",
-	                        name: "chest3",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    },
-	                    {
-	                        value: "CHEST,chest4",
-	                        name: "chest4",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    }
-	                    ],
-	                    "SaveNewSubExercise($event)")
-	                    }}
-	
-	
-						<!--SHOULDER accordion-->
-						<!-- ======================================================================= -->
-						{{ main.accordionItem("SHOULDER", [
-	                    {
-	                        value: "SHOULDER,shoulder1",
-	                        name: "shoulder1",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    },
-	                    {
-	                        value: "SHOULDER,shoulder2",
-	                        name: "shoulder2",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    },
-	                    {
-	                        value: "SHOULDER,shoulder3",
-	                        name: "shoulder3",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    },
-	                    {
-	                        value: "SHOULDER,shoulder4",
-	                        name: "shoulder4",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    }
-	                    ],
-	                    "SaveNewSubExercise($event)")
-	                    }}
-	
-						<!--REST accordion-->
-						<!-- ======================================================================= -->
-					{{ main.accordionItem("REST", [
-	                    {
-	                        value: "REST,sleep",
-	                        name: "sleep",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    },
-	                    {
-	                        value: "REST,meditate",
-	                        name: "meditate",
-	                        onClick: "toggleShowAndSaveExercise($event)"
-	                    }
-	                    ],
-	                    "SaveNewSubExercise($event)")
-	                    }}
+						{% for exercise in exercises %}
+							{{main.accordionItem(exercise.taskName)}}
+								{% for subExercise in subExercises %}
+									{% if exercise.id == subExercise.taskId %}	
+										{{ main.accordionItem2(
+												[	
+													{		
+													value: subExercise.subTaskName,
+													name: subExercise.subTaskName,
+													onClick: "toggleShowAndSaveExercise($event)"
+													}
+												]
+											)
+										}}
+									{% endif %}
+								{% endfor %}
+								{{main.accordionItem3(exercise.id)}}
+						{% endfor %}
+        
+					</div>
 				</div>
 					<!-- =======================END OF CATEGORIES accordions ========================================== -->
-				</div>
 				<div
 					class="col-lg-6 bg-secondary">
 					<!-- =======================start of getting time and rounds========================================== -->
@@ -290,8 +135,6 @@
 	
 					<!-- =======================end of getting time and rounds========================================== -->
 				</div>
-	
-	
 			</div>
 		</section>
 	{% endblock %}

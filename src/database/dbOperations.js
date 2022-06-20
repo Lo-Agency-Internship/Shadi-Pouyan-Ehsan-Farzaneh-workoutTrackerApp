@@ -21,6 +21,7 @@ function selectUser() {
   const users = statement.all()
   return users
 }
+
 // ========================For exercise categories===============================
 function prepareExerciseCategoryTable() {
   const statement = Ldb.prepare(constants.CREATE_EXERCISE_CATEGORY_TABLE);
@@ -29,40 +30,65 @@ function prepareExerciseCategoryTable() {
 
 /**
  * @param {string} taskName
- * @param {string} subTaskName
  */
 
-function insertToExerciseCategoryTable(taskName, subTaskName) {
+function insertToExerciseCategoryTable(taskName) {
   const statement = Ldb.prepare(constants.INSERT_TO_EXERCISE_CATEGORY);
-  const info = statement.run("ABS","abs1")
-  const info2 = statement.run("ABS","abs2")
-  const info3 = statement.run("BACK","back1")
-  const info4 = statement.run("BACK","back2")
-  const info5 = statement.run("BICEP","bicep1")
-  const info6 = statement.run("BICEP","bicep2")
-  const info7 = statement.run("LEGS","legs1")
-  const info8 = statement.run("LEGS","legs2")
-  const info9 = statement.run("CHEST","chest1")
-  const info10 = statement.run("CHEST","chest2")
-  const info11 = statement.run("SHOULDER","shoulder1")
-  const info12 = statement.run("SHOULDER","shoulder2")
-  const info13 = statement.run("REST","sleep")
-  const info14 = statement.run("REST","medidate")
+  const info = statement.run("ABS")
+  const info3 = statement.run("BACK")
+  const info5 = statement.run("BICEP")
+  const info7 = statement.run("LEGS")
+  const info9 = statement.run("CHEST")
+  const info11 = statement.run("SHOULDER")
+  const info13 = statement.run("REST")
 }
-
 
 function loadExerciseCategoryTable() {
   const statement = Ldb.prepare(constants.LOAD_EXERCISE_CATEGORY);
   const info = statement.all();
   return info;
 }
-
-function deleteFromExerciseCategoryTable(id) {
-  const statement = Ldb.prepare(constants.DELETE_USER_EXERCISE);
-  const info = statement.run(id);
+// ========================  For sub exercises  ===============================
+function prepareSubExerciseCategoryTable() {
+  const statement = Ldb.prepare(constants.CREATE_SUB_EXERCISE_CATEGORY_TABLE);
+  const info = statement.run();
 }
 
-// ========================For user exercise=====================================
+/**
+ * @param {string} subTaskName
+ * @param {integer} taskId
+ */
+
+function insertToSubExerciseCategoryTable(subTaskName, taskId) {
+  const statement = Ldb.prepare(constants.INSERT_TO_SUB_EXERCISE_CATEGORY);
+  const info = statement.run("abs1", 1)
+  const info1 = statement.run("abs2", 1)
+  const info2 = statement.run("back1", 2)
+  const info3 = statement.run("back2", 2)
+  const info4 = statement.run("bicep1", 3)
+  const info5 = statement.run("bicep2" , 3)
+  const info6 = statement.run("leg1", 4)
+  const info7 = statement.run("leg2", 4)
+  const info8 = statement.run("chest1", 5)
+  const info9 = statement.run("chest2", 5)
+  const info10 = statement.run("shoulder1", 6)
+  const info11 = statement.run("shoulder2", 6)
+  const info12 = statement.run("rest1", 7)
+  const info13 = statement.run("rest2", 7)
+}
+function insertNewToSubExerciseCategoryTable(subTaskName, taskId) {
+  const statement = Ldb.prepare(constants.INSERT_TO_SUB_EXERCISE_CATEGORY);
+  const info = statement.run(subTaskName, taskId)
+}
+
+function loadSubExerciseCategoryTable() {
+  const statement = Ldb.prepare(constants.LOAD_SUB_EXERCISE_CATEGORY);
+  const info = statement.all();
+  return info;
+}
+
+
+// ========================For user exercises =====================================
 function prepareUserExerciseTable() {
   const statement = Ldb.prepare(constants.CREATE_USER_EXERCISE_TABLE);
   const info = statement.run();
@@ -112,5 +138,8 @@ module.exports = {
   prepareExerciseCategoryTable,
   insertToExerciseCategoryTable,
   loadExerciseCategoryTable,
-  deleteFromExerciseCategoryTable
+  prepareSubExerciseCategoryTable,
+  insertToSubExerciseCategoryTable,
+  loadSubExerciseCategoryTable,
+  insertNewToSubExerciseCategoryTable
 };
