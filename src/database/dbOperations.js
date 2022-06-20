@@ -7,9 +7,9 @@ function prepareUser() {
   const statement = Ldb.prepare(constants.Create_user);
   const info = statement.run();
 }
-function insertUser(name, email, password, hash, salt) {
+function insertUser(name, email, hash, salt) {
   const statement = Ldb.prepare(constants.Insert_user);
-  const info = statement.run(name, email, password, hash, salt)
+  const info = statement.run(name, email, hash, salt)
 }
 function findUser(email) {
   const statement = Ldb.prepare(constants.Find_user);
@@ -59,9 +59,9 @@ function testInsertYesterday(taskName, subTaskName, roundRange, timeRange, descr
   )
 }
 
-function loadDataBase() {
+function loadDataBase(userId) {
   const statement = Ldb.prepare(constants.LOAD_DATABASE);
-  const info = statement.all();
+  const info = statement.all(userId);
   return info;
 }
 

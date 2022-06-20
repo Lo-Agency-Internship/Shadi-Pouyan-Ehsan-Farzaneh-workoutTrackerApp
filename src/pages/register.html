@@ -30,7 +30,8 @@
 
                                     <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
 
-                                    <form class="mx-1 mx-md-6" x-data="form()" method="POST" action="/" x-init="
+                                    <form class="mx-1 mx-md-6" x-data="form()" method="POST"
+                                        @submit.prevent="submitregister" action="" x-init="
                                     $watch('name', value => { validate('name') })
                                     $watch('email', value => { validate('email') })
                                     $watch('password', value => { validate('password') })
@@ -221,13 +222,31 @@
                         this.validation[field].message = ''
                         continue
                     }
+                },
+                submitregister() {
+                    const data = {
+                        name: this.name,
+                        email: this.email,
+                        password: this.password,
+                        repeatPassword: this.repeatPassword,
+
+                    }
+                    fetch('/', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    }).then((response) => {
+                        // const id = response.headers.get(`user-id`)
+                        // localStorage.setItem(`userId`, id)
+                        window.location.href = '/login'
+
+
+                    })
                 }
             }
-            console.log("this.password")
-            console.log(this.password)
-            console.log("password")
-            console.log(password)
+
         }
+
 
     </script>
 </body>
