@@ -6,7 +6,8 @@
     <script>
         function excercise(){
             return{
-                excerciseName:'',
+                taskName:'',
+                subTaskName:'',
                 show:false,
                 roundRange:'',
                 timeRange:'',
@@ -15,18 +16,25 @@
 				exerciseDate:'',
 				taskId:'',
                 toggleShowAndSaveExercise(event) {
+					
                     event.preventDefault();
                     this.show = ! this.show;
-                    if(this.excerciseName===''){
-                        this.excerciseName = event.target.getAttribute('value')
+
+                    if(this.taskName===''){
+                        const ButtonValues = event.target.getAttribute('value')
+						this.taskName = ButtonValues.split(",")[0]
+						this.subTaskName = ButtonValues.split(",")[1]
                     }
                     else{
-                        this.excerciseName=''
+                        this.taskName=''
+                        this.subTaskName=''
                     }},
 
                 finalSave(event) {
                     event.preventDefault();
-					let data = {excerciseName: this.excerciseName,
+					
+					let data = {taskName: this.taskName,
+								subTaskName: this.subTaskName,
 								roundRange: this.roundRange,
 								timeRange: this.timeRange,
 								description: this.description,
@@ -56,10 +64,7 @@
 					method: "POST",
 					headers: {'Content-Type': 'application/json'}, 
 					body: JSON.stringify(data),
-					})
-
-                    
-                    console.log(this.newSubTask)
+					}).then(window.location.assign("http://localhost:3000/add"))
                 }
 				
             }
@@ -88,9 +93,7 @@
 										{{ main.accordionItem2(
 												[	
 													{		
-													value: subExercise.subTaskName,
-													name: subExercise.subTaskName,
-													onClick: "toggleShowAndSaveExercise($event)"
+													value: subExercise.subTaskName
 													}
 												]
 											)

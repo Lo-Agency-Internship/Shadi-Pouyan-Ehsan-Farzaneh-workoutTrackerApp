@@ -75,21 +75,23 @@ app.set("views", path.join(__dirname, "src", "pages"));
 // serving the / route
 app.get("/", (req, res) => {
   // res.render("signUp")
-  res.sendFile(__dirname + "/src/pages" + "/register.html")
+  res.sendFile(__dirname + "/src/pages" + "/register.html");
 });
 
 app.post("/", (req, res) => {
-  const data = req.body
+  const data = req.body;
   console.log(req.body);
   if (data.password === data.repeatPassword) {
     prepareUser();
-    const salt = crypto.randomBytes(16).toString('hex');
-    const hash = crypto.pbkdf2Sync(data.password, salt, 1000, 64, `sha512`).toString(`hex`);
+    const salt = crypto.randomBytes(16).toString("hex");
+    const hash = crypto
+      .pbkdf2Sync(data.password, salt, 1000, 64, `sha512`)
+      .toString(`hex`);
     console.log(hash, salt);
     // inserting the user into user table
-    insertUser(data.name, data.email, hash, salt)
+    insertUser(data.name, data.email, hash, salt);
     console.log(data.id);
-    res.sendFile('./src/pages/login.html', { root: __dirname });
+    res.sendFile("./src/pages/login.html", { root: __dirname });
     // res.redirect('./login.html')
     // if (user != undefined) {
     //     console.log('user')
@@ -102,12 +104,12 @@ app.post("/", (req, res) => {
     //     return res.send('undefined data')
     // }
   }
-})
-app.get('/login', (req, res) => {
-  res.sendFile(__dirname + "/src/pages" + "/login.html")
-})
+});
+app.get("/login", (req, res) => {
+  res.sendFile(__dirname + "/src/pages" + "/login.html");
+});
 
-app.post('/login', (req, res) => {
+app.post("/login", (req, res) => {
   const data = req.body;
   console.log(data);
   // if (data.email && data.password) {
@@ -119,8 +121,7 @@ app.post('/login', (req, res) => {
   const userId = user.id;
   res.cookie("user-id", userId);
   res.redirect("/homepage");
-
-})
+});
 
 // =================================================================
 // add exercise
@@ -130,39 +131,18 @@ app.get("/add", (req, res) => {
   const path = "./src/database/database.db";
   try {
     if (fs.existsSync(path)) {
-
       // const userId = idCookie;
 
       const exercises = loadExerciseCategoryTable();
-      console.log("z")
+
       const subExercises = loadSubExerciseCategoryTable();
-      
-      console.log("===============exercises========================")
-      console.log(exercises)
-      console.log("zz")
-      console.log("================subExercises======================")
-      console.log(subExercises)
-      // const exerciseByCategory = [];
-
-      // exercises.map((item, index, arr)=>{
-        
-      //   if (index===exercises.length-1) return false;
-        
-      //   const cat = [];
-        
-      //   if (item.taskName===arr[index+1].taskName) {
-      //     cat.push(item);
-      //     cat.push(arr[index+1])
-      //     exerciseByCategory.push(cat)        
-      //   }
-
-      // })
 
       res.render("./add", {
         exercises,
-        subExercises
+        subExercises,
       });
     }
+
   } catch (err) {
     res.render("information");
   }
@@ -171,34 +151,37 @@ app.get("/add", (req, res) => {
 // =================================
 
 app.post("/add/api", (req, res) => {
-  const excercise = req.body.excerciseName.split(",")[0];
-  const subExcercise = req.body.excerciseName.split(",")[1];
+ 
+  const excercise = req.body.taskName
+  const subExcercise = req.body.subTaskName
   const roundRange = req.body.roundRange;
   const timeRange = req.body.timeRange;
   const description = req.body.description;
   const exerciseDate = req.body.exerciseDate;
-  const userId = req.headers.cookie.split('=')[1];
+  const userId = req.headers.cookie.split("=")[1];
 
   prepareUserExerciseTable();
 
-  insertToUserExerciseTable(excercise, subExcercise, roundRange, timeRange, description, exerciseDate, userId);
+  insertToUserExerciseTable(
+    excercise,
+    subExcercise,
+    roundRange,
+    timeRange,
+    description,
+    exerciseDate,
+    userId
+  );
 });
 
 app.post("/add/sub/api", (req, res) => {
   const taskId = req.body.taskId;
   const newSubTask = req.body.newSubTask;
-  console.log("reqbody")
-  console.log(req.body)
-  console.log("taskId");
-  console.log(taskId)
-  console.log("newSubTask1");
-  console.log(newSubTask);
-  insertNewToSubExerciseCategoryTable(newSubTask, taskId)
-  
-})
+  insertNewToSubExerciseCategoryTable(newSubTask, taskId);
 
-
-
+  const exercises = loadExerciseCategoryTable();
+  const subExercises = loadSubExerciseCategoryTable();
+  res.redirect("http://localhost:3000/add");
+});
 
 // =================================================================
 // homepage
@@ -206,13 +189,12 @@ app.post("/add/sub/api", (req, res) => {
 
 app.get("/homepage", (req, res) => {
   console.log(req.headers.cookie);
-  const idCookie = req.headers.cookie.split('=')[1];
+  const idCookie = req.headers.cookie.split("=")[1];
   const path = "./src/database/database.db";
   try {
     if (fs.existsSync(path)) {
-
       const userId = idCookie;
-      console.log("ok", userId)
+      console.log("ok", userId);
       const exercises = loadUserExerciseTable(userId);
       console.log(exercises);
       res.render("./homepage", {
@@ -278,15 +260,13 @@ app.post("/homepage/filterdays/:askedDay", (req, res) => {
         break;
     }
   });
-  console.log({ exercises })
-  res.send({ "exercises": exercises })
+  console.log({ exercises });
+  res.send({ exercises: exercises });
 
   // res.render("./homepage", {
   //   exercises
   // });
-
 });
-
 
 // =================================================================
 // informative pages
