@@ -74,23 +74,19 @@ app.set("views", path.join(__dirname, "src", "pages"));
 
 // serving the / route
 app.get("/", (req, res) => {
-  // res.render("signUp")
   res.sendFile(__dirname + "/src/pages" + "/register.html");
 });
 
 app.post("/", (req, res) => {
   const data = req.body;
-  console.log(req.body);
   if (data.password === data.repeatPassword) {
     prepareUser();
     const salt = crypto.randomBytes(16).toString("hex");
     const hash = crypto
       .pbkdf2Sync(data.password, salt, 1000, 64, `sha512`)
       .toString(`hex`);
-    console.log(hash, salt);
     // inserting the user into user table
     insertUser(data.name, data.email, hash, salt);
-    console.log(data.id);
     res.sendFile("./src/pages/login.html", { root: __dirname });
     // res.redirect('./login.html')
     // if (user != undefined) {
@@ -111,13 +107,10 @@ app.get("/login", (req, res) => {
 
 app.post("/login", (req, res) => {
   const data = req.body;
-  console.log(data);
   // if (data.email && data.password) {
   //   selectUser(data.email);
   // }
-  console.log(data.email);
   const user = findUser(data.email);
-  console.log(user.id);
   const userId = user.id;
   res.cookie("user-id", userId);
   res.redirect("/homepage");
@@ -188,15 +181,12 @@ app.post("/add/sub/api", (req, res) => {
 // =================================================================
 
 app.get("/homepage", (req, res) => {
-  console.log(req.headers.cookie);
   const idCookie = req.headers.cookie.split("=")[1];
   const path = "./src/database/database.db";
   try {
     if (fs.existsSync(path)) {
       const userId = idCookie;
-      console.log("ok", userId);
       const exercises = loadUserExerciseTable(userId);
-      console.log(exercises);
       res.render("./homepage", {
         exercises,
       });
@@ -260,7 +250,6 @@ app.post("/homepage/filterdays/:askedDay", (req, res) => {
         break;
     }
   });
-  console.log({ exercises });
   res.send({ exercises: exercises });
 
   // res.render("./homepage", {

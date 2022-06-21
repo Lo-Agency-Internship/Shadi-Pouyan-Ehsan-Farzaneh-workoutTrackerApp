@@ -75,6 +75,6 @@ module.exports = {
     userId
   )
     VALUES(?,?,?,?,?,?,?)`,
-  LOAD_USER_EXERCISE: `SELECT * FROM excercises WHERE userId=?`,
-  DELETE_USER_EXERCISE: `DELETE FROM excercises WHERE id=?`
+  LOAD_USER_EXERCISE: `SELECT * FROM userExercise WHERE userId=?`,
+  DELETE_USER_EXERCISE: `DELETE FROM userExercise WHERE userId=?`
 };
