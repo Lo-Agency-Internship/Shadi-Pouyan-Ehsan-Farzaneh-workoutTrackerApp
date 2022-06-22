@@ -144,7 +144,7 @@ app.get("/add", (req, res) => {
 // =================================
 
 app.post("/add/api", (req, res) => {
- 
+
   const excercise = req.body.taskName
   const subExcercise = req.body.subTaskName
   const roundRange = req.body.roundRange;
@@ -183,12 +183,13 @@ app.post("/add/sub/api", (req, res) => {
 app.get("/homepage", (req, res) => {
   const idCookie = req.headers.cookie.split("=")[1];
   const path = "./src/database/database.db";
+  let exercises
   try {
     if (fs.existsSync(path)) {
       const userId = idCookie;
-      const exercises = loadUserExerciseTable(userId);
+      exercises = loadUserExerciseTable(userId);
       res.render("./homepage", {
-        exercises,
+        exercises: JSON.stringify(exercises)
       });
     }
   } catch (err) {
@@ -196,11 +197,21 @@ app.get("/homepage", (req, res) => {
   }
 });
 
+app.post("/homepage/filtered", (req, res) => {
+  let exercises = req.body
+  console.log("exercisesssssssssss", exercises)
+  res.render("./homepageFiltered", {
+    exercises: JSON.stringify(exercises)
+  });
+}
+)
 // =================================
 // =================================
 
 app.post("/homepage/delete", (req, res) => {
   const exercise = req.body;
+  console.log("delette filter");
+  console.log(req.body);
   deleteFromUserExerciseTable(exercise.exerciseID);
   res.redirect("/homepage");
 });
@@ -208,20 +219,10 @@ app.post("/homepage/delete", (req, res) => {
 // =================================
 // =================================
 
-app.post("/homepage/filterdays/:askedDay", (req, res) => {
-  var today = new Date();
-  var dd = String(today.getDate()).padStart(2, "0");
-  var prevDay = String(Number(dd) - 1);
-  var nextDay = String(Number(dd) + 1);
-  var mm = String(today.getMonth() + 1).padStart(2, "0");
-  var yyyy = String(today.getFullYear());
+app.post("/homepage/filterdays", (req, res) => {
 
-  const yesterdayDate = [yyyy, mm, prevDay];
-  const todayDate = [yyyy, mm, dd];
-  const tomorrowDate = [yyyy, mm, nextDay];
-
-  const askedDay = req.params.askedDay;
-  const allExercises = loadUserExerciseTable();
+  const userId = req.body;
+  const allExercises = loadUserExerciseTable(userId);
 
   let exercises = [];
 
