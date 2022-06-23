@@ -133,7 +133,7 @@
 			let exerciseDate = item.date.split("-");
 			switch (String(askedDay)) {
 			case "1":
-				if (exerciseDate[0] === firstOfPreviousWeekDate[0] && exerciseDate[1] === firstOfPreviousWeekDate[1] && firstOfPreviousWeekDate[2] <= exerciseDate[2] && exerciseDate[2] <= lastOfPreviousWeekDate[2]) {
+				if (Number(exerciseDate[0]) === Number(firstOfPreviousWeekDate[0]) && Number(exerciseDate[1]) === Number(firstOfPreviousWeekDate[1]) && Number(firstOfPreviousWeekDate[2]) <= Number(exerciseDate[2]) && Number(exerciseDate[2]) <= Number(lastOfPreviousWeekDate[2])) {
 				filteredExercises.push(item);
 				}
 				break;
@@ -145,7 +145,7 @@
 				break;
 
 			case "3":
-				if (exerciseDate[0] === firstOfNextWeekDate[0] && exerciseDate[1] === firstOfNextWeekDate[1] && firstOfNextWeekDate[2] <= exerciseDate[2] && exerciseDate[2] <= lastOfNextWeekDate[2]) {
+				if (Number(exerciseDate[0]) === Number(firstOfNextWeekDate[0]) && Number(exerciseDate[1]) === Number(firstOfNextWeekDate[1]) && Number(firstOfNextWeekDate[2]) <= Number(exerciseDate[2]) && Number(exerciseDate[2]) <= Number(lastOfNextWeekDate[2])) {
 				filteredExercises.push(item);
 				}
 				break;
