@@ -101,6 +101,11 @@ app.post("/", (req, res) => {
     // }
   }
 });
+
+// =================================================================
+// LOGIN
+// =================================================================
+
 app.get("/login", (req, res) => {
   res.sendFile(__dirname + "/src/pages" + "/login.html");
 });
@@ -117,7 +122,7 @@ app.post("/login", (req, res) => {
 });
 
 // =================================================================
-// add exercise
+// load add page
 // =================================================================
 
 app.get("/add", (req, res) => {
@@ -141,7 +146,9 @@ app.get("/add", (req, res) => {
   }
 });
 
-// =================================
+// =================================================================
+// add user Exercises
+// =================================================================
 
 app.post("/add/api", (req, res) => {
 
@@ -166,6 +173,10 @@ app.post("/add/api", (req, res) => {
   );
 });
 
+// =================================================================
+// add sub Exercises
+// =================================================================
+
 app.post("/add/sub/api", (req, res) => {
   const taskId = req.body.taskId;
   const newSubTask = req.body.newSubTask;
@@ -177,7 +188,7 @@ app.post("/add/sub/api", (req, res) => {
 });
 
 // =================================================================
-// homepage
+// load homepage
 // =================================================================
 
 app.get("/homepage", (req, res) => {
@@ -197,16 +208,10 @@ app.get("/homepage", (req, res) => {
   }
 });
 
-app.post("/homepage/filtered", (req, res) => {
-  let exercises = req.body
-  console.log("exercisesssssssssss", exercises)
-  res.render("./homepageFiltered", {
-    exercises: JSON.stringify(exercises)
-  });
-}
-)
-// =================================
-// =================================
+
+// =================================================================
+// delete exercise from homepage
+// =================================================================
 
 app.post("/homepage/delete", (req, res) => {
   const exercise = req.body;
@@ -216,47 +221,6 @@ app.post("/homepage/delete", (req, res) => {
   res.redirect("/homepage");
 });
 
-// =================================
-// =================================
-
-app.post("/homepage/filterdays", (req, res) => {
-
-  const userId = req.body;
-  const allExercises = loadUserExerciseTable(userId);
-
-  let exercises = [];
-
-  let filteration = allExercises.filter(function (item) {
-    let exerciseDate = item.date.split("-");
-    switch (askedDay) {
-      case "1":
-        if (JSON.stringify(exerciseDate) == JSON.stringify(yesterdayDate)) {
-          exercises.push(item);
-        }
-        break;
-
-      case "2":
-        if (JSON.stringify(exerciseDate) == JSON.stringify(todayDate)) {
-          exercises.push(item);
-        }
-        break;
-
-      case "3":
-        if (JSON.stringify(exerciseDate) == JSON.stringify(tomorrowDate)) {
-          exercises.push(item);
-        }
-        break;
-
-      default:
-        break;
-    }
-  });
-  res.send({ exercises: exercises });
-
-  // res.render("./homepage", {
-  //   exercises
-  // });
-});
 
 // =================================================================
 // informative pages
@@ -276,18 +240,3 @@ app.listen(port, () => {
   );
 });
 
-// const excercise = "yesterday";
-// const subExcercise = "yesterday";
-// const roundRange = "9";
-// const timeRange = "9";
-// const description = "yesterday";
-// const date = "2022-06-14";
-// prepareTable();
-// testInsertYesterday(
-//   excercise,
-//   subExcercise,
-//   roundRange,
-//   timeRange,
-//   description,
-//   date
-// );
