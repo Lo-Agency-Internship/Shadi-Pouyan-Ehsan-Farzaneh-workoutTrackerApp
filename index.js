@@ -140,7 +140,6 @@ app.get("/add", (req, res) => {
         subExercises,
       });
     }
-
   } catch (err) {
     res.render("information");
   }
@@ -151,9 +150,8 @@ app.get("/add", (req, res) => {
 // =================================================================
 
 app.post("/add/api", (req, res) => {
-
-  const excercise = req.body.taskName
-  const subExcercise = req.body.subTaskName
+  const excercise = req.body.taskName;
+  const subExcercise = req.body.subTaskName;
   const roundRange = req.body.roundRange;
   const timeRange = req.body.timeRange;
   const description = req.body.description;
@@ -194,20 +192,19 @@ app.post("/add/sub/api", (req, res) => {
 app.get("/homepage", (req, res) => {
   const idCookie = req.headers.cookie.split("=")[1];
   const path = "./src/database/database.db";
-  let exercises
+  let exercises;
   try {
     if (fs.existsSync(path)) {
       const userId = idCookie;
       exercises = loadUserExerciseTable(userId);
       res.render("./homepage", {
-        exercises: JSON.stringify(exercises)
+        exercises: JSON.stringify(exercises),
       });
     }
   } catch (err) {
     res.render("information");
   }
 });
-
 
 // =================================================================
 // delete exercise from homepage
@@ -225,21 +222,37 @@ app.post("/homepage/delete", (req, res) => {
 // end point to send to others
 // =================================================================
 
-app.get("/ourgym", (req, res) => {
-  const allUsers = selectUser()
+app.get("/api/ourgym", (req, res) => {
+  const allUsers = selectUser();
 
-  const sendToOthers = []
+  const sendToOthers = [];
 
-  allUsers.filter(item=>{
+  allUsers.filter((item) => {
     let userExercises = loadUserExerciseTable(item.id);
 
-    userExercises.filter(item2=>{
-      sendToOthers.push({personName: item.name, exerciseName: item2.taskName, subExerciseName: item2.subTaskName, NumberOfRounds: item2.roundRange, TimeOfEachRound: item2.timeRange, DateOfExercise: item2.date})
-    })
-
-  })
-res.json(sendToOthers)
+    userExercises.filter((item2) => {
+      sendToOthers.push({
+        personName: item.name,
+        exerciseName: item2.taskName,
+        subExerciseName: item2.subTaskName,
+        NumberOfRounds: item2.roundRange,
+        TimeOfEachRound: item2.timeRange,
+        DateOfExercise: item2.date,
+      });
+    });
+  });
+  
+  res.json(sendToOthers);
 });
+
+// =================================================================
+// end point to receive from others
+// =================================================================
+
+app.get("/othergyms", (req, res) => {
+  fetch("http://localhost:3000/api/ourgym")
+});
+
 
 // =================================================================
 // informative pages
@@ -258,4 +271,3 @@ app.listen(port, () => {
     `The server is running succesfully on the http://localhost:${port}.`
   );
 });
-
