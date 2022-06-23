@@ -4,7 +4,6 @@
 	<script>
 	
 	let exercises = {{exercises}}
-	console.log({exercises})
 	let filteredExercises = []
 	
 	function filterDays(askedDay) {
@@ -32,7 +31,6 @@
 			let exerciseDate = item.date.split("-");
 			switch (String(askedDay)) {
 			case "1":
-			console.log("chera")
 				if (JSON.stringify(exerciseDate) == JSON.stringify(yesterdayDate)) {
 				filteredExercises.push(item);
 				}
@@ -86,10 +84,108 @@
 				})
 
 	}
+
+  function filterWeeks(askedDay) {
+		filteredExercises = []
+
+		let today = new Date();
+		
+		let dd = String(today.getDate()).padStart(2, "0");
+		
+		let dayOfWeek = today.getDay(); //0-6
+		
+		let firstDayOfWeek = String(Number(dd) - Number(dayOfWeek));
+
+		let firstDayOfNextWeek = String(Number(dd) - Number(dayOfWeek) + 7);
 	
-	console.log(filteredExercises)
-	console.log("new filtered exercises")
-	console.log("ebiroon",exercises)
+		let firstDayOfPreviousWeek = String(Number(dd) - Number(dayOfWeek) - 7);
+	
+		let lastDayOfWeek = String(Number(dd) - Number(dayOfWeek) + 6);
+
+		let lastDayOfNextWeek = String(Number(dd) - Number(dayOfWeek) + 6 + 7);
+	
+		let lastDayOfPreviousWeek = String(Number(dd) - Number(dayOfWeek) + 6 - 7);
+	
+
+		let mm = String(today.getMonth() + 1).padStart(2, "0");
+		
+		let yyyy = String(today.getFullYear());
+		
+		
+		const todayDate = [yyyy, mm, dd];
+	//-----------------------------------------------------------------------------
+		const firstOfWeekDate = [yyyy, mm, firstDayOfWeek];
+	
+		const lastOfWeekDate = [yyyy, mm, lastDayOfWeek];
+	//-----------------------------------------------------------------------------
+		const firstOfPreviousWeekDate = [yyyy, mm, firstDayOfPreviousWeek];
+	
+		const lastOfPreviousWeekDate = [yyyy, mm, lastDayOfPreviousWeek];
+	//-----------------------------------------------------------------------------
+		const firstOfNextWeekDate = [yyyy, mm, firstDayOfNextWeek];
+	
+		const lastOfNextWeekDate = [yyyy, mm, lastDayOfNextWeek];
+	
+
+		const userId = document.cookie.split("=")[1];
+
+		let filteration = exercises.filter(function (item) {
+			let exerciseDate = item.date.split("-");
+			switch (String(askedDay)) {
+			case "1":
+				if (exerciseDate[0] === firstOfPreviousWeekDate[0] && exerciseDate[1] === firstOfPreviousWeekDate[1] && firstOfPreviousWeekDate[2] <= exerciseDate[2] && exerciseDate[2] <= lastOfPreviousWeekDate[2]) {
+				filteredExercises.push(item);
+				}
+				break;
+
+			case "2":
+				if (Number(exerciseDate[0]) === Number(firstOfWeekDate[0]) && Number(exerciseDate[1]) === Number(firstOfWeekDate[1]) && Number(firstOfWeekDate[2]) < Number(exerciseDate[2]) && Number(exerciseDate[2]) < Number(lastOfWeekDate[2])) {
+				filteredExercises.push(item);
+				}
+				break;
+
+			case "3":
+				if (exerciseDate[0] === firstOfNextWeekDate[0] && exerciseDate[1] === firstOfNextWeekDate[1] && firstOfNextWeekDate[2] <= exerciseDate[2] && exerciseDate[2] <= lastOfNextWeekDate[2]) {
+				filteredExercises.push(item);
+				}
+				break;
+
+			default:
+				break;
+			}
+		
+		});
+		
+			const cardsWrapper = document.querySelector(".changer")
+				cardsWrapper.innerHTML = "";
+				filteredExercises.map(item => {
+					cardsWrapper.innerHTML += `
+					<div class="container d-flex" style="flex-wrap: wrap ; width: 100vw; justify-content: space-between">
+							<div style="flex-basis: 45%; margin: 0.5rem 0">
+								<form action="/homepage/delete" method="post">
+									<div class="fluid rounded-start">
+										<div class="card  align-self-center " style="background-color: #d8f0f5fa">
+											<div class="card-body ">
+												<h5 class="card-title">Exercise</h5>
+											</div>
+											<ul class="list-group list-group-flush">
+												<strong>Main Task:</strong>&nbsp<li class="list-group-item" >${item.taskName}</li>
+												<strong> SubTask:</strong>&nbsp <li class="list-group-item" >${item.subTaskName}</li>
+												<strong>Number of rounds:</strong>&nbsp <li class="list-group-item">${item.roundRange}</li>
+												<strong>Time of each round:</strong>&nbsp <li class="list-group-item">${item.timeRange}</li>
+												<strong>Description:</strong>&nbsp<li class="list-group-item">${item.description}</li>
+												<strong>Date:</strong>&nbsp<li class="list-group-item">${item.date}</li>
+											</ul>
+											<input name="exerciseID" value="${item.id}" type="hidden"></input>
+											<button class="btn bg-danger" onclick="return confirm('Are you sure you want to delete this exercise?');" type="submit"> Delete </button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					 `
+				})
+	}
 
 	</script>
 {% endblock %}
@@ -97,19 +193,28 @@
 	<main
 		data-bs-spy="scroll" data-bs-target="#navbar-example">
 		<!-- main page -->
-		<div class="d-flex flex-row width-100">
-			<div class="flex">
-				<h1>{{userId}}</h1>
-				<button class="btn btn-primary btn btn-info d-flex my-5" type="button" onclick="filterDays(1)">
+		<div class="d-flex flex-row width-100  align-self-start justify-content-end">
+			<div class="flex col-md-6 d-flex justify-content-around">
+				<button class="btn btn-primary btn d-flex my-5" type="button" onclick="filterDays(1)">
 					Yesterday
 				</button>
-				<button class="btn btn-primary btn btn-info d-flex my-5" type="button" onclick="filterDays(2)">
+				<button class="btn btn-primary btn d-flex my-5" type="button" onclick="filterDays(2)">
 					Today
 				</button>
-				<button class="btn btn-primary btn btn-info d-flex my-5" type="button" onclick="filterDays(3)">
+				<button class="btn btn-primary btn d-flex my-5" type="button" onclick="filterDays(3)">
 					Tomorrow
 				</button>
-				<div id="test"></div>
+			</div>
+			<div class="flex col-md-6 d-flex justify-content-around">
+				<button class="btn btn-primary btn btn-info d-flex my-5" type="button" onclick="filterWeeks(1)">
+					Previous Week
+				</button>
+				<button class="btn btn-primary btn btn-info d-flex my-5" type="button" onclick="filterWeeks(2)">
+					This Week
+				</button>
+				<button class="btn btn-primary btn btn-info d-flex my-5" type="button" onclick="filterWeeks(3)">
+					Next Week
+				</button>
 			</div>
 		</div>
 	</main>
