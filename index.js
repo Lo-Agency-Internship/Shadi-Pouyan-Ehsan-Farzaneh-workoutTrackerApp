@@ -74,51 +74,66 @@ app.set("views", path.join(__dirname, "src", "pages"));
 
 // serving the / route
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/src/pages" + "/register.html");
+  res.render("register")
+
 });
+
 
 app.post("/", (req, res) => {
   const data = req.body;
+  prepareUser();
   if (data.password === data.repeatPassword) {
-    prepareUser();
-    const salt = crypto.randomBytes(16).toString("hex");
-    const hash = crypto
-      .pbkdf2Sync(data.password, salt, 1000, 64, `sha512`)
-      .toString(`hex`);
-    // inserting the user into user table
-    insertUser(data.name, data.email, hash, salt);
-    res.sendFile("./src/pages/login.html", { root: __dirname });
-    // res.redirect('./login.html')
-    // if (user != undefined) {
-    //     console.log('user')
-    //     const statement = db.prepare(`INSERT INTO user(name, email, password) VALUES(?,?,?)`)
+    const user = findUser(data.email);
+    if (user === undefined) {
 
-    //     statement.run(user.name, user.emali, user.password);
-    // }
-    // else {
-    //     console.log('getting undefined data');
-    //     return res.send('undefined data')
-    // }
+
+      const salt = crypto.randomBytes(16).toString("hex");
+      const hash = crypto
+        .pbkdf2Sync(data.password, salt, 1000, 64, `sha512`)
+        .toString(`hex`);
+      insertUser(data.name, data.email, hash, salt);
+      res.redirect("/login")
+    }
+    else {
+      res.setHeader("errorMessage", "Email is exist").end();
+    }
   }
+
+  else {
+    res.setHeader("errorMessage", "Password is not match").end();
+
+  }
+
+
+
 });
-
-// =================================================================
-// LOGIN
-// =================================================================
-
 app.get("/login", (req, res) => {
-  res.sendFile(__dirname + "/src/pages" + "/login.html");
+
+  res.render("login")
 });
 
 app.post("/login", (req, res) => {
   const data = req.body;
-  // if (data.email && data.password) {
-  //   selectUser(data.email);
-  // }
   const user = findUser(data.email);
-  const userId = user.id;
-  res.cookie("user-id", userId);
-  res.redirect("/homepage");
+  if (user === undefined) {
+
+    res.setHeader("errorMessage", "Email is not exist").end();
+
+  }
+  else {
+    const userId = user.id;
+    const salt = user.salt;
+    const hash = crypto.pbkdf2Sync(data.password, salt, 1000, 64, `sha512`).toString(`hex`);
+    if (hash === user.hash) {
+      res.cookie("user-id", userId).end()
+      res.redirect("/homepage");
+    }
+    else {
+      res.setHeader("errorMessage", "Password is not match").end();
+
+    }
+  }
+
 });
 
 // =================================================================
@@ -134,7 +149,6 @@ app.get("/add", (req, res) => {
       const exercises = loadExerciseCategoryTable();
 
       const subExercises = loadSubExerciseCategoryTable();
-
       res.render("./add", {
         exercises,
         subExercises,

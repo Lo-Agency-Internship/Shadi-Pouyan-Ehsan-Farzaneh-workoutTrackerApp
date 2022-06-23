@@ -1,0 +1,103 @@
+{% extends "./layouts/html.twig" %}
+
+{% block content %}
+
+
+    <section class="vh-100" style="background-color: #eee;">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-lg-7 col-xl-6">
+                    <div class="card text-black" style="border-radius: 25px;">
+                        <div class="card-body p-md-6">
+                            <div class="row justify-content-center">
+                                <div x-data="{
+                                    email:'',
+                                    password:'',
+                                    errEmail:false,
+                                    errPassword:false,
+                                   submitlogin(){
+                                     const formData={
+                                     email:this.email,
+                                     password:this.password }
+                                   fetch('/login', {
+                                     method: 'POST',
+                                    headers: { 'Content-type': 'application/json'},
+                                    body:JSON.stringify(formData)
+                                         }).then(response => { 
+                                           const error=response.headers.get('errorMessage')
+                                           switch (error) {
+                                            case 'Email is not exist':
+                                            this.errEmail = true
+                                            break;
+  
+                                            case 'Password is not match':
+                                            this.errPassword = true
+                                            this.errEmail = false
+                                            break;
+  
+  
+                                            default:
+                                              window.location.href='/homepage';
+                                               
+                                              break;
+                                           }
+                                         })
+                                        }
+                                       }" class="col-md-12 col-lg-8 col-xl-7 order-2 order-lg-1">
+
+                                    <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign In</p>
+
+                                    <form class="mx-1 mx-md-6" @submit.prevent="submitlogin">
+                                    
+
+                                        <div class="d-flex flex-row align-items-center mb-4">
+                                            <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                            <div class="form-floating flex-fill mb-0">
+                                                <input type="email" id="Email" class="form-control"
+                                                    placeholder="Enter email" x-model="email" />
+                                                <label class="form-label">Your Email</label>
+                                                 <p x-show="errEmail" class="text-danger">Your Email must be valid!</p>
+                                                <!-- For Error Handleing -->
+                                                <!-- <div class="invalid-feedback col-md-12 d-flex align-items-center"
+                                                    x-show="emailmessage" x-text="emailmessage">
+                                                </div> -->
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex flex-row align-items-center mb-4">
+                                            <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                                            <div class="form-floating flex-fill mb-0" x-data="{showPassword:false}">
+                                                <input x-bind:type="showPassword ? 'text' :'password'" id="Password"
+                                                    style="position:relative" class="form-control"
+                                                    placeholder="Enter password" x-model="password"
+                                                    type="password" />
+                                                <i class="fa" x-bind:class="showPassword ? 'fa-eye' : 'fa-eye-slash'"
+                                                    style="position: absolute;
+                                                    right: 1.1rem;
+                                                    top: 1.3rem;
+                                                    cursor: pointer;" x-on:click="showPassword =! showPassword"></i>
+                                                <label class="form-label">Password</label>
+                                                <p x-show="errPassword" class="text-danger">Your Password is not match!</p>
+                                                <!-- For Error Handleing -->
+                                                 {# <div class="invalid-feedback col-md-12 d-flex align-items-center"
+                                                    x-show="passwordmessage" x-text="passwordmessage">
+                                                </div>  #}
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                            <button type="submit" class="btn btn-primary btn-lg mt-3">Sign In</button>
+                                        </div>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+   {% endblock %}

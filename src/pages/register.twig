@@ -1,23 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "./layouts/html.twig" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://kit.fontawesome.com/d366ec8021.js" crossorigin="anonymous"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <title>Register Form</title>
-
-</head>
-<style>
-</style>
-
-<body>
-
+{% block content %}
 
     <section class="vh-100" style="background-color: #eee;">
         <div class="container h-100">
@@ -31,7 +14,7 @@
                                     <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
 
                                     <form class="mx-1 mx-md-6" x-data="form()" method="POST"
-                                        @submit.prevent="submitregister" action="" x-init="
+                                        @submit.prevent="submitregister" x-init="
                                     $watch('name', value => { validate('name') })
                                     $watch('email', value => { validate('email') })
                                     $watch('password', value => { validate('password') })
@@ -42,7 +25,7 @@
                                             <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                                             <div class="form-floating flex-fill mb-0">
                                                 <input type="text" id="name" class="form-control"
-                                                    placeholder="Enter name" x-model="name" name="name" />
+                                                    placeholder="Enter name" x-model="name" name="name" required/>
                                                 <label class="form-label">Your Name</label>
                                                 <!-- For Error Handleing -->
                                                 <div class="invalid-feedback col-md-12 d-flex align-items-center"
@@ -55,12 +38,13 @@
                                             <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                             <div class="form-floating flex-fill mb-0">
                                                 <input type="email" id="Email" class="form-control"
-                                                    placeholder="Enter email" x-model="email" name="email" />
+                                                    placeholder="Enter email" x-model="email" name="email" required />
                                                 <label class="form-label">Your Email</label>
                                                 <!-- For Error Handleing -->
                                                 <div class="invalid-feedback col-md-12 d-flex align-items-center"
                                                     x-text="validation.email.message">
                                                 </div>
+                                                <p x-show="errEmail" class="text-danger">Your Email is exist!</p>
                                             </div>
                                         </div>
 
@@ -69,7 +53,7 @@
                                             <div class="form-floating flex-fill mb-0" x-data="{showPassword:false}">
                                                 <input x-bind:type="showPassword ? 'text' :'password'" id="Password"
                                                     style="position:relative" class="form-control"
-                                                    placeholder="Enter password" x-model="password" name="password" />
+                                                    placeholder="Enter password" x-model="password" name="password" required/>
                                                 <i class="fa" x-bind:class="showPassword ? 'fa-eye' : 'fa-eye-slash'"
                                                     style="position: absolute;
                                                     right: 1.1rem;
@@ -87,13 +71,14 @@
                                             <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                                             <div class="form-floating flex-fill mb-0">
                                                 <input type="password" id="RepeatPassword" class="form-control"
-                                                    placeholder="Enter password" x-model="repeatPassword" />
+                                                    placeholder="Enter password" x-model="repeatPassword" required/>
                                                 <label class="form-label">Repeat your
                                                     password</label>
                                                 <!-- For Error Handleing -->
                                                 <div class="invalid-feedback col-md-12 d-flex align-items-center"
                                                     x-text="validation.repeatPassword.message">
                                                 </div>
+                                                 <p x-show="errPassword" class="text-danger">Your Password is not match!</p>
                                             </div>
                                         </div>
 
@@ -124,6 +109,8 @@
                 email: '',
                 password: '',
                 repeatPassword: '',
+                errEmail:false,
+                errPassword:false,
 
                 validation: {
                     name: {
@@ -235,10 +222,25 @@
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(data)
-                    }).then((response) => {
-                        // const id = response.headers.get(`user-id`)
-                        // localStorage.setItem(`userId`, id)
-                        window.location.href = '/login'
+                    }).then((response) => 
+                        { 
+                                           const error=response.headers.get('errorMessage')
+                                           switch (error) {
+                                            case 'Email is exist':
+                                            this.errEmail = true
+                                            break;
+  
+                                            case 'Password is not match':
+                                            this.errPassword = true
+                                            break;
+  
+  
+                                            default:
+                                              window.location.href='login';
+                                               
+                                              break;
+                                           }
+
 
 
                     })
@@ -249,6 +251,5 @@
 
 
     </script>
-</body>
 
-</html>
+    {% endblock %}
