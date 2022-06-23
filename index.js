@@ -173,7 +173,7 @@ app.post("/add/sub/api", (req, res) => {
 
   const exercises = loadExerciseCategoryTable();
   const subExercises = loadSubExerciseCategoryTable();
-  res.redirect("http://localhost:3000/add");
+  res.redirect("../add");
 });
 
 // =================================================================
