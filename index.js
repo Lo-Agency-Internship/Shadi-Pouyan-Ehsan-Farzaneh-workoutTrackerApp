@@ -221,6 +221,25 @@ app.post("/homepage/delete", (req, res) => {
   res.redirect("/homepage");
 });
 
+// =================================================================
+// end point to send to others
+// =================================================================
+
+app.get("/ourgym", (req, res) => {
+  const allUsers = selectUser()
+
+  const sendToOthers = []
+
+  allUsers.filter(item=>{
+    let userExercises = loadUserExerciseTable(item.id);
+
+    userExercises.filter(item2=>{
+      sendToOthers.push({personName: item.name, exerciseName: item2.taskName, subExerciseName: item2.subTaskName, NumberOfRounds: item2.roundRange, TimeOfEachRound: item2.timeRange, DateOfExercise: item2.date})
+    })
+
+  })
+res.json(sendToOthers)
+});
 
 // =================================================================
 // informative pages
