@@ -262,10 +262,28 @@ app.get("/api/ourgym", (req, res) => {
 // =================================================================
 // end point to receive from others
 // =================================================================
+app.get("/othergyms", (req, res) => {
+    res.render("./othergyms");
+  });
 
-app.get("/othergym", (req, res) => {
-  // fetch("http://localhost:3000/api/ourgym")
-  res.render("othergym");
+app.get("/othergym1", (req, res) => {
+  axios.get("https://be52-86-107-55-254.sa.ngrok.io/api/trainings")
+  .then(response=>{
+    let exercises = response.data;
+    res.render("./othergym", {
+      exercises: JSON.stringify(exercises),
+    });
+  })
+});
+
+app.get("/othergym2", (req, res) => {
+  axios.get("https://5aee-2-147-252-40.in.ngrok.io/api")
+  .then(response=>{
+    let exercises = response.data;
+    res.render("./othergym", {
+      exercises: JSON.stringify(exercises),
+    });
+  })
 });
 
 
