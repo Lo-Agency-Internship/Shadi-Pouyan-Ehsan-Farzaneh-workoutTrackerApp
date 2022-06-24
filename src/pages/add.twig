@@ -41,7 +41,12 @@
 								userId: this.userId,
 								exerciseDate: this.exerciseDate
 								};
-
+					document.getElementById('timeRange').value = ''
+					document.getElementById('timeRange2').value = '30'
+					document.getElementById('roundRange').value = ''
+					document.getElementById('roundRange2').value = '50'
+					document.getElementById('Description').value = ''
+					alert("your exercise is saved\nview it in your homepage")
 					fetch("/add/api", {
 					method: "POST",
 					headers: {'Content-Type': 'application/json'}, 
@@ -114,11 +119,11 @@
 						<form x-show='show' class="bg-info m-2 p-5 rounded">
 							<label for="roundRange" class="form-label fw-bold">Number Of rounds</label>
 							<input type="range" class="form-range" id="roundRange" value="10" min="1" max="100" oninput="this.nextElementSibling.value = this.value" x-model="roundRange">
-							<output>10</output>&nbsp round(s)
+							<output id="roundRange2">50</output>&nbsp round(s)
 							<hr>
 							<label for="timeRange" class="form-label fw-bold">Duration Of rounds</label>
 							<input type="range" class="form-range" id="timeRange" value="5" min="1" max="60" oninput="this.nextElementSibling.value = this.value" x-model="timeRange">
-							<output>5</output>&nbsp minutes(s)
+							<output id="timeRange2">30</output>&nbsp minutes(s)
 							<hr>
 							<label for="exerciseDate" class="form-label fw-bold">Exercise Date</label>
 							<input type="date" x-model="exerciseDate">
