@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-light pt-4 pb-4 bg-dark">
         <div class="container-xxl">
             <!-- navbar brand / title -->
-            <a class="navbar-brand" href="#home">
+            <a class="navbar-brand" href="../homepage">
                 <img src="images/logo.png" alt="logo of gym" class="rounded mx-auto" style="width: 50px;">
                 <span class="text-secondary fw-bold">
                     ShaPouFarEhsan - your GYM
@@ -20,20 +20,27 @@
                         <a class="nav-link text-light" href="../add">Add Exercise</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light" href="#otherGyms">OTHER GYMS</a>
+                        <a class="nav-link text-light" href="../othergym">OTHER GYMS</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-light" href="../homepage">HOME</a>
                     </li>
                     <li class="nav-item d-md-none">
-                        <a class="nav-link text-light" href="#logOut">LOG OUT</a>
+                        <button class="nav-link text-light" onclick="logout()">LOG OUT</button>
                     </li>
                     <li class="nav-item ms-2 d-none d-md-inline">
-                        <a value="" @click="toggleShowAndSaveExercise($event)" class="btn btn-secondary mb-1"
-                            href="#logOut">LOG OUT</a>
+                        <button  onclick="logout()" class="btn btn-secondary mb-1"
+                            >LOG OUT</button>
                     </li>
 
                 </ul>
             </div>
         </div>
     </nav>
+    <script>
+    function logout(){
+        document.cookie = "user-id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        window.location.href='login';
+
+    }
+    </script>

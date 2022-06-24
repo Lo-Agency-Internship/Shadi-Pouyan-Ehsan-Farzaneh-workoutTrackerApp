@@ -255,7 +255,7 @@ app.get("/api/ourgym", (req, res) => {
       });
     });
   });
-  
+
   res.json(sendToOthers);
 });
 
@@ -263,8 +263,9 @@ app.get("/api/ourgym", (req, res) => {
 // end point to receive from others
 // =================================================================
 
-app.get("/othergyms", (req, res) => {
-  fetch("http://localhost:3000/api/ourgym")
+app.get("/othergym", (req, res) => {
+  // fetch("http://localhost:3000/api/ourgym")
+  res.render("othergym");
 });
 
 
