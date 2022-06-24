@@ -19,7 +19,7 @@ And then use the following to install the required dependencies and run the proj
 npm install express
 ```
 ```
-npm start
+npm run start
 ```
 
 # Libraries & Tools Used
