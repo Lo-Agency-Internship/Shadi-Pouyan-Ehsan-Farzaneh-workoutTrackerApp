@@ -52,14 +52,9 @@
 					headers: {'Content-Type': 'application/json'}, 
 					body: JSON.stringify(data),
 					})
-					/*.then(res => {
-					console.log("2");
-					console.log("Request complete! response:", res);
-					});*/
 					
                 },
                 SaveNewSubExercise(event,id) {
-					console.log("alert");
 					event.preventDefault();
 					let data = {newSubTask: this.newSubTask,
 								taskId: id

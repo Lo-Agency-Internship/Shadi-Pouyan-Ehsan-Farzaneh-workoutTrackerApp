@@ -144,8 +144,7 @@ app.get("/add", (req, res) => {
   const path = "./src/database/database.db";
   try {
     if (fs.existsSync(path)) {
-      // const userId = idCookie;
-
+      
       const exercises = loadExerciseCategoryTable();
 
       const subExercises = loadSubExerciseCategoryTable();
@@ -226,8 +225,6 @@ app.get("/homepage", (req, res) => {
 
 app.post("/homepage/delete", (req, res) => {
   const exercise = req.body;
-  console.log("delette filter");
-  console.log(req.body);
   deleteFromUserExerciseTable(exercise.exerciseID);
   res.redirect("/homepage");
 });
