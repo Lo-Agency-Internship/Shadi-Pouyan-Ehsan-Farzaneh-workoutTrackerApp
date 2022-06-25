@@ -267,17 +267,17 @@ app.get("/othergym1", (req, res) => {
   axios.get("https://be52-86-107-55-254.sa.ngrok.io/api/trainings")
   .then(response=>{
     let exercises = response.data;
-    res.render("./othergym", {
+    res.render("./othergym1", {
       exercises: JSON.stringify(exercises),
     });
   })
 });
 
 app.get("/othergym2", (req, res) => {
-  axios.get("https://5aee-2-147-252-40.in.ngrok.io/api")
+  axios.get("https://7ea8-31-56-95-233.eu.ngrok.io/api")
   .then(response=>{
     let exercises = response.data;
-    res.render("./othergym", {
+    res.render("./othergym2", {
       exercises: JSON.stringify(exercises),
     });
   })
