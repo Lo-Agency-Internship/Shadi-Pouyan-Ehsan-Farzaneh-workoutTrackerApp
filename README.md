@@ -36,8 +36,7 @@ http://localhost:3000
 ## Requirements for User
 In order to start the application: Firstly, you need to signup and then login.
  In homepage you will be informed to head to add page in which you can add your favorite exercise with its date and number of rounds. 
-
-![image](src/public/images/AddExercise (2).PNG)
+![image](src/public/images/AddExercise(2).PNG)
 
 Also, you can add description. After that you can filter your scedule by date in the homepage.
 
