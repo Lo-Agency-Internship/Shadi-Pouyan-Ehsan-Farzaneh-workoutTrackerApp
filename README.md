@@ -16,13 +16,19 @@ Install the application:
 ```
 npm install
 ```
+
 <br />
+
 Start the server:
+
 ```
 npm run start
 ```
+
 <br /> 
+
 View in browser at
+
 ```
 http://localhost:3000
 ```
