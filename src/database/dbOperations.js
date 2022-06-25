@@ -1,5 +1,7 @@
 const constants = require("./constants");
-const { Ldb } = require("./initialDataBase");
+const {
+  Ldb
+} = require("./initialDataBase");
 Ldb
 // ========================Functions===============================
 // ========================For Users===============================
@@ -7,13 +9,16 @@ Ldb
 function prepareUser() {
   Ldb.prepare(constants.CREATE_USER).run();
 }
+
 function insertUser(name, email, hash, salt) {
   Ldb.prepare(constants.INSERT_USER).run(name, email, hash, salt);
 }
+
 function findUserByEmail(email) {
   const user = Ldb.prepare(constants.SELECT_USER).get(email);
   return user;
 }
+
 function selectAllUsers() {
   const users = Ldb.prepare(constants.SELECT_ALL_USERS).all();
   return users;
@@ -71,6 +76,7 @@ function insertToSubExerciseCategoryTableDefault(subTaskName, taskId) {
   statement.run("rest1", 7);
   statement.run("rest2", 7);
 }
+
 function insertNewToSubExerciseCategoryTable(subTaskName, taskId) {
   Ldb.prepare(constants.INSERT_TO_SUB_EXERCISE_CATEGORY).run(
     subTaskName,
