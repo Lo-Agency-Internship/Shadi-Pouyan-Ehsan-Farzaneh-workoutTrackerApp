@@ -12,8 +12,8 @@ const fs = require("fs");
 // Database
 // =======================================================
 
-const { initializedDB, Ldb } = require("./src/database/initialDataBase");
-initializedDB();
+const { Ldb } = require("./src/database/initialDataBase");
+Ldb;
 
 // =======================================================
 
