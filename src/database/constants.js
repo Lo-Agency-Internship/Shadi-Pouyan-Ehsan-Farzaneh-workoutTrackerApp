@@ -1,12 +1,12 @@
 module.exports = {
-  Create_user: `CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT,
+  CREATE_USER: `CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT,
     name varchar(50) NOT NULL, 
     email varchar(50) NOT NULL, 
     hash string,
     salt string
     )`,
 
-  Insert_user: `INSERT INTO users( 
+  INSERT_USER: `INSERT INTO users( 
     name, 
     email, 
     hash,
@@ -14,8 +14,8 @@ module.exports = {
     ) VALUES 
     (?,?,?,?)`,
 
-  Select_user: `SELECT * FROM users`,
-  Find_user: `SELECT * FROM users WHERE email = ?`,
+  SELECT_ALL_USERS: `SELECT * FROM users`,
+  SELECT_USER: `SELECT * FROM users WHERE email = ?`,
 
   // =========================
   // EXERCISE_CATEGORY_TABLE
@@ -30,6 +30,7 @@ module.exports = {
     VALUES(?)
           `,
   LOAD_EXERCISE_CATEGORY: `SELECT * FROM excercises`,
+  LOAD_EXERCISE_CATEGORY_CHECK: `SELECT * FROM excercises WHERE taskName = ?`,
 
   // =============================
   // sub exercise categories table
@@ -48,6 +49,7 @@ module.exports = {
           `,
 
   LOAD_SUB_EXERCISE_CATEGORY: `SELECT * FROM subExcercises`,
+  LOAD_SUB_EXERCISE_CATEGORY_CHECK: `SELECT * FROM subExcercises WHERE subTaskName = ? `,
 
   DELETE_SUB_EXERCISE_CATEGORY: `DELETE FROM subExcercises WHERE taskId=?`,
 

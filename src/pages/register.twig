@@ -44,7 +44,7 @@
                                                 <div class="invalid-feedback col-md-12 d-flex align-items-center"
                                                     x-text="validation.email.message">
                                                 </div>
-                                                <p x-show="errEmail" class="text-danger">Your Email is exist!</p>
+                                                <p x-show="errEmail" class="text-danger">This Email Already exists</p>
                                             </div>
                                         </div>
 
@@ -88,7 +88,7 @@
                                         <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                                             <a href="../login" class="btn btn-primary btn-lg mt-3">Sign In</a>
                                         </div>
-                                        <img src="logo.png" alt="">
+                                
                                     </form>
 
                                 </div>
@@ -224,16 +224,17 @@
                         body: JSON.stringify(data)
                     }).then((response) => 
                         { 
-                                           const error=response.headers.get('errorMessage')
-                                           switch (error) {
-                                            case 'Email is exist':
+                                           const status=response.status
+                                           switch (String(status)) {
+                                            case '400':
                                             this.errEmail = true
+                                            console.log({{error}})
                                             break;
   
-                                            case 'Password is not match':
+                                            case '401':
                                             this.errPassword = true
+                                            console.log({{error}})
                                             break;
-  
   
                                             default:
                                               window.location.href='login';

@@ -2,8 +2,6 @@ const express = require("express");
 
 const path = require("path");
 
-const { parse } = require("path");
-
 const crypto = require("crypto");
 
 const axios = require("axios").default;
@@ -14,8 +12,6 @@ const fs = require("fs");
 // Database
 // =======================================================
 
-const Database = require("better-sqlite3");
-
 const { initializedDB, Ldb } = require("./src/database/initialDataBase");
 initializedDB();
 
@@ -24,32 +20,40 @@ initializedDB();
 const {
   prepareUser,
   insertUser,
-  findUser,
-  selectUser,
+  findUserByEmail,
+  selectAllUsers,
   prepareUserExerciseTable,
   insertToUserExerciseTable,
   deleteFromUserExerciseTable,
   loadUserExerciseTable,
   loadExerciseCategoryTable,
   prepareExerciseCategoryTable,
-  insertToExerciseCategoryTable,
   prepareSubExerciseCategoryTable,
   loadSubExerciseCategoryTable,
-  insertToSubExerciseCategoryTable,
   insertNewToSubExerciseCategoryTable,
+  insertToExerciseCategoryTableDefault,
+  insertToSubExerciseCategoryTableDefault,
+  loadExerciseCategoryTableCheck,
+  loadSubExerciseCategoryTableCheck,
 } = require("./src/database/dbOperations");
+
+prepareUser();
+
+prepareUserExerciseTable();
 
 prepareExerciseCategoryTable();
 
-insertToExerciseCategoryTable();
-
 prepareSubExerciseCategoryTable();
 
-insertToSubExerciseCategoryTable();
+if (!loadExerciseCategoryTableCheck("ABS")) {
+  insertToExerciseCategoryTableDefault();
+}
+if (!loadSubExerciseCategoryTableCheck("abs1")) {
+  insertToSubExerciseCategoryTableDefault();
+}
+
 
 // =======================================================
-
-const { request } = require("http");
 
 const app = express();
 
@@ -81,12 +85,9 @@ app.get("/", (req, res) => {
 
 app.post("/", (req, res) => {
   const data = req.body;
-  prepareUser();
   if (data.password === data.repeatPassword) {
-    const user = findUser(data.email);
+    const user = findUserByEmail(data.email);
     if (user === undefined) {
-
-
       const salt = crypto.randomBytes(16).toString("hex");
       const hash = crypto
         .pbkdf2Sync(data.password, salt, 1000, 64, `sha512`)
@@ -95,17 +96,17 @@ app.post("/", (req, res) => {
       res.redirect("/login")
     }
     else {
-      res.setHeader("errorMessage", "Email is exist").end();
+      res.status(400).json({
+        error: "User Already Exists"
+      })
     }
   }
 
   else {
-    res.setHeader("errorMessage", "Password is not match").end();
-
+    res.status(401).json({
+      error: "Password is not match"
+    })
   }
-
-
-
 });
 app.get("/login", (req, res) => {
 
@@ -114,7 +115,7 @@ app.get("/login", (req, res) => {
 
 app.post("/login", (req, res) => {
   const data = req.body;
-  const user = findUser(data.email);
+  const user = findUserByEmail(data.email);
   if (user === undefined) {
 
     res.setHeader("errorMessage", "Email is not exist").end();
@@ -171,8 +172,7 @@ app.post("/add/api", (req, res) => {
   const exerciseDate = req.body.exerciseDate;
   const userId = req.headers.cookie.split("=")[1];
 
-  prepareUserExerciseTable();
-
+  
   insertToUserExerciseTable(
     excercise,
     subExcercise,
@@ -234,7 +234,7 @@ app.post("/homepage/delete", (req, res) => {
 // =================================================================
 
 app.get("/api/ourgym", (req, res) => {
-  const allUsers = selectUser();
+  const allUsers = selectAllUsers();
 
   const sendToOthers = [];
 
