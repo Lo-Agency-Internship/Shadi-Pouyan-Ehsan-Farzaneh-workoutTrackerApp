@@ -56,16 +56,17 @@ if (!loadSubExerciseCategoryTableCheck("abs1")) {
   insertToSubExerciseCategoryTableDefault();
 }
 
-
 // =======================================================
 
 const app = express();
 
 app.use(express.json());
 
-app.use(express.urlencoded({
-  extended: true
-}));
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 
 app.use(express.static(path.join(__dirname, "src", "public")));
 
@@ -84,10 +85,8 @@ app.set("views", path.join(__dirname, "src", "pages"));
 
 // serving the / route
 app.get("/", (req, res) => {
-  res.render("register")
-
+  res.render("register");
 });
-
 
 app.post("/", (req, res) => {
   const data = req.body;
@@ -99,46 +98,44 @@ app.post("/", (req, res) => {
         .pbkdf2Sync(data.password, salt, 1000, 64, `sha512`)
         .toString(`hex`);
       insertUser(data.name, data.email, hash, salt);
-      res.redirect("/login")
+      res.redirect("/login");
     } else {
       res.status(400).json({
-        error: "User Already Exists"
-      })
+        error: "User Already Exists",
+      });
     }
   } else {
     res.status(401).json({
-      error: "Password is not match"
-    })
+      error: "Password is not match",
+    });
   }
 });
 app.get("/login", (req, res) => {
-
-  res.render("login")
+  res.render("login");
 });
 
 app.post("/login", (req, res) => {
   const data = req.body;
   const user = findUserByEmail(data.email);
   if (user === undefined) {
-
     res.setHeader("errorMessage", "Email is not exist").end();
-
   } else {
     const userId = user.id;
     const salt = user.salt;
-    const hash = crypto.pbkdf2Sync(data.password, salt, 1000, 64, `sha512`).toString(`hex`);
+    const hash = crypto
+      .pbkdf2Sync(data.password, salt, 1000, 64, `sha512`)
+      .toString(`hex`);
     if (hash === user.hash) {
       const id = user.id;
-      const Hash = crypto.createHash("sha256").digest("hex");
+      const Hash = crypto.randomBytes(16).toString("hex");
+
       Hashing.setHashId(id, Hash);
-      res.cookie('Hash', `${Hash}`)
+      res.cookie("Hash", `${Hash}`);
       res.redirect("/homepage");
     } else {
       res.setHeader("errorMessage", "Password is not match").end();
-
     }
   }
-
 });
 
 // =================================================================
@@ -147,9 +144,12 @@ app.post("/login", (req, res) => {
 
 app.get("/add", (req, res) => {
   const path = "./src/database/database.db";
+
+  if (req.headers.cookie === undefined) {
+    return res.render("./login");
+  }
   try {
     if (fs.existsSync(path)) {
-
       const exercises = loadExerciseCategoryTable();
 
       const subExercises = loadSubExerciseCategoryTable();
@@ -176,9 +176,7 @@ app.post("/add/api", (req, res) => {
   const exerciseDate = req.body.exerciseDate;
   const userIdHash = Hashing.HashCookie(req.headers.cookie);
   const idhash = Hashing.getHashId(userIdHash);
-  const userId = idhash.id
-
-
+  const userId = idhash.id;
 
   insertToUserExerciseTable(
     excercise,
@@ -273,25 +271,24 @@ app.get("/othergyms", (req, res) => {
 });
 
 app.get("/othergym1", (req, res) => {
-  axios.get("https://be52-86-107-55-254.sa.ngrok.io/api/trainings")
-    .then(response => {
+  axios
+    .get("https://be52-86-107-55-254.sa.ngrok.io/api/trainings")
+    .then((response) => {
       let exercises = response.data;
       res.render("./othergym1", {
         exercises: JSON.stringify(exercises),
       });
-    })
+    });
 });
 
 app.get("/othergym2", (req, res) => {
-  axios.get("https://7ea8-31-56-95-233.eu.ngrok.io/api")
-    .then(response => {
-      let exercises = response.data;
-      res.render("./othergym2", {
-        exercises: JSON.stringify(exercises),
-      });
-    })
+  axios.get("https://7ea8-31-56-95-233.eu.ngrok.io/api").then((response) => {
+    let exercises = response.data;
+    res.render("./othergym2", {
+      exercises: JSON.stringify(exercises),
+    });
+  });
 });
-
 
 // =================================================================
 // informative pages
