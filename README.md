@@ -47,7 +47,7 @@ Feedback is always welcomed, so if you have any, please contact our team.
 
 ## Authors
 
-- [@Shadi] (https://github.com/ShadiNrz)
-- [@Pouyan] (https://github.com/pouyanze)
-- [@Farzaneh] (https://github.com/ferizana92)
-- [@Eshan] (https://github.com/ehsan-afsharnia)
+- [@Shadi](https://github.com/ShadiNrz)
+- [@Pouyan](https://github.com/pouyanze)
+- [@Farzaneh](https://github.com/ferizana92)
+- [@Eshan](https://github.com/ehsan-afsharnia)
