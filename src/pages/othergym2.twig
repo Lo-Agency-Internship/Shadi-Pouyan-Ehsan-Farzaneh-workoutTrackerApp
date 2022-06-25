@@ -1,0 +1,42 @@
+{% extends "./layouts/main.twig" %}
+
+{% block scripts %}
+	<script>
+	    let exercises = {{exercises}}
+    </script>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="changer">
+	<div x-data="{ exercises : exercises }">
+		<div class="container d-flex" style="flex-wrap: wrap ; width: 100vw; justify-content: space-between">
+			<template x-for="exercise in exercises">
+				<div style="flex-basis: 45%; margin: 0.5rem 0">
+					
+						<div class="fluid rounded-start">
+							<div class="card  align-self-center " style="background-color: #d8f0f5fa">
+								<div class="card-body ">
+									<h5 class="card-title">Exercise</h5>
+								</div>
+								<ul class="list-group list-group-flush">
+									<strong>User Name:</strong>&nbsp<li class="list-group-item" x-text="exercise.username"></li>
+									<strong>Main Task:</strong>&nbsp<li class="list-group-item" x-text="exercise.category"></li>
+									<strong>SubTask Name:</strong>&nbsp <li class="list-group-item" x-text="exercise.name"></li>
+									<strong>Number of rounds:</strong>&nbsp <li class="list-group-item" x-text="exercise.repeatCount"></li>
+									<strong>Time of each round:</strong>&nbsp <li class="list-group-item" x-text="exercise.timeCount"></li>
+									<strong>Date:</strong>&nbsp<li class="list-group-item" x-text="exercise.dueDate"></li>
+								</ul>
+								
+							</div>
+						</div>
+					
+				</div>
+			</template>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
