@@ -67,7 +67,6 @@ Crypto and "sha512" Algorithm have been used in Our App  <br>
 ## Features
 - Login/Register to the application
 - Add exercises with specific date 
-- Delete an exercise when completed
 - Filter them according to their weekly or daily dates.
 - Have an access to the other gyms schedule
 - Add sub categories to predefined ones to give you the freedom you need
