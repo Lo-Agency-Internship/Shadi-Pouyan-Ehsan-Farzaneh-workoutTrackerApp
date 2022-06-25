@@ -8,14 +8,37 @@ Clone the repository:`git clone git@github.com:Lo-Agency-Internship/Shadi-Pouyan
 
 And then use the following to install the required dependencies and run the project:
 
-Install the application: ```npm install```<br />
-Start the server: ```npm run start```<br /> 
-View in browser at ```http://localhost:3000```
+Install the application: ```
+npm install ```<br />
+Start the server: ```
+npm run start ```<br /> 
+View in browser at ```
+http://localhost:3000 ```
 
 ## Requirements for User
 In order to start the application: Firstly, you need to signup and then login.
  In homepage you will be informed to head to add page in which you can add your favorite exercise with its date and number of rounds. Also, you can add description. After that you can filter your scedule by date in the homepage.
 
+# API
+Use the below link to see our users exercises in JSON format for your usage.
+
+### API LINK
+
+***[our temporary website address which you can reterive from us]/api/ourgym***
+
+### API Structure Example
+```
+[{
+personName,
+exerciseName,
+subExerciseName,
+NumberOfRounds,
+TimeOfEachRound,
+DateOfExercise
+}, ...]
+```
+# Hash Method
+Crypto and "sha512" Algorithm have been used in Our App  <br>
 
 ## Features
 - Login/Register to the application
