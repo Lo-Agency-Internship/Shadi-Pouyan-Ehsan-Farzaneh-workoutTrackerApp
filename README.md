@@ -4,7 +4,11 @@
 Looking for some awesome at-home bodyweight workouts to do? All you need is Workout Tracker! The best application one can find to add exercises based on dates and improve their physical health
 
 ## Installation
-Clone the repository:`git clone git@github.com:Lo-Agency-Internship/Shadi-Pouyan-Ehsan-Farzaneh-workoutTrackerApp.git`<br />
+Clone the repository:
+```
+git clone git@github.com:Lo-Agency-Internship/Shadi-Pouyan-Ehsan-Farzaneh-workoutTrackerApp.git
+```
+<br />
 
 And then use the following to install the required dependencies and run the project:
 
