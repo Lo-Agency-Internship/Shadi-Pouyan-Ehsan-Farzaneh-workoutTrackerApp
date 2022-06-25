@@ -8,12 +8,20 @@ Clone the repository:`git clone git@github.com:Lo-Agency-Internship/Shadi-Pouyan
 
 And then use the following to install the required dependencies and run the project:
 
-Install the application: ```
-npm install ```<br />
-Start the server: ```
-npm run start ```<br /> 
-View in browser at ```
-http://localhost:3000 ```
+Install the application:
+```
+npm install
+```
+<br />
+Start the server:
+```
+npm run start
+```
+<br /> 
+View in browser at
+```
+http://localhost:3000
+```
 
 ## Requirements for User
 In order to start the application: Firstly, you need to signup and then login.
