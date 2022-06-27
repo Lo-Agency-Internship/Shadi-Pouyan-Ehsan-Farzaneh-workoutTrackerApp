@@ -5,12 +5,17 @@ let HashId = [];
 module.exports = {
     HashCookie: (hashCookie) => {
         const cookie = hashCookie;
-        const userIdHash = cookie.split("=")[1];
+        let ArrayCookie = cookie.split(";")
+        ArrayCookie = ArrayCookie.map(e=>e.trim())
+        const FindCookie = ArrayCookie.filter(el => el.startsWith('Hash='))
+        const userIdHash = FindCookie[0].split("=")[1];
         return userIdHash;
     },
 
+  
 
-    setHashId: (id, Hash) => {
+
+    setHashId: (id,Hash) => {
         HashId.push({
             id,
             Hash
@@ -19,7 +24,7 @@ module.exports = {
     },
 
     getHashId: (Hash) => {
-        return HashId.find(obj => obj.Hash === Hash)
+        return HashId.find(e => e.Hash === Hash)
     }
-
+    
 }
