@@ -129,8 +129,8 @@ app.post("/login", (req, res) => {
       const id = user.id;
       const Hash = crypto.randomBytes(16).toString("hex");
 
-      Hashing.setHashId(id, Hash);
-      res.cookie("Hash", `${Hash}`);
+      Hashing.setHashId(id,Hash);
+      res.cookie("Hash",`${Hash}`);
       res.redirect("/homepage");
     } else {
       res.setHeader("errorMessage", "Password is not match").end();
