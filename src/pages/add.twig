@@ -133,7 +133,7 @@
 								</div>
 							</div>
 							<br>
-							<button class="btn btn-secondary btn-lg" @click="finalSave($event)" x-bind:disabled="description===''">save</button>
+							<button class="btn btn-secondary btn-lg" @click="finalSave($event)" x-bind:disabled="exerciseDate==='' || description==='' || timeRange==='' || roundRange===''">save</button>
 						</form>
 					</div>
 	
